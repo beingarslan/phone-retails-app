@@ -18,8 +18,8 @@
         <ul class="nav navbar-nav d-xl-none">
           <li class="nav-item"><a class="nav-link menu-toggle" href="javascript:void(0);"><i class="ficon" data-feather="menu"></i></a></li>
         </ul>
-       
-       
+
+
       </div>
       <ul class="nav navbar-nav align-items-center ms-auto">
         <!-- <li class="nav-item dropdown dropdown-language">
@@ -43,8 +43,8 @@
           </div>
         </li> -->
         <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li>
-       
-        
+
+
         <li class="nav-item dropdown dropdown-user">
           <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true">
             <div class="user-nav d-sm-flex d-none">
@@ -57,7 +57,7 @@
               </span>
               <span class="user-status">
                 @if (Auth::check())
-                  {{Auth::user()->getRoleNames()[0]}}
+                {{Auth::user()->getRoleNames()[0]}}
                 @else
                 User
                 @endif
@@ -81,15 +81,8 @@
 
 
             @if (Auth::check())
-            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <a class="dropdown-item" href="/logout">
               <i class="me-50" data-feather="power"></i> Logout
-            </a>
-            <form method="POST" id="logout-form" action="{{ route('logout') }}">
-              @csrf
-            </form>
-            @else
-            <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : 'javascript:void(0)' }}">
-              <i class="me-50" data-feather="log-in"></i> Login
             </a>
             @endif
           </div>
