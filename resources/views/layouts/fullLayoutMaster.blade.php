@@ -1,3 +1,9 @@
+@auth
+@php
+$pageConfigs['theme'] = Auth::user()->theme;
+@endphp
+@endauth
+
 @isset($pageConfigs)
 {!! Helper::updatePageConfig($pageConfigs) !!}
 @endisset

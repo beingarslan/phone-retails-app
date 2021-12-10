@@ -21,6 +21,61 @@
             <div class="card">
                 <div class="card-body">
                     <button type="button" class="btn btn-gradient-primary" data-bs-toggle="modal" data-bs-target="#addAdvertisingModel">Add User</button>
+                    <!-- Add User Model -->
+                    <div class="modal fade" id="addAdvertisingModel" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                            <div class="modal-content">
+                                <div class="modal-header bg-transparent">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body pb-5 px-sm-5 pt-50">
+                                    <div class="text-center mb-2">
+                                        <h1 class="mb-1">Add User</h1>
+                                        <!-- <p>Updating user details will receive a privacy audit.</p> -->
+                                    </div>
+                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.users.save')}}" method="POST">
+                                        @csrf
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="first-name-vertical">User Role</label>
+                                                <select class="form-control" name="role">
+                                                    <option value="">Select User Role</option>
+                                                    @foreach($roles as $role)
+                                                    <option value="{{$role}}">{{$role}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center mt-2 pt-50">
+                                            <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
+                                                Discard
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add User Model End -->
                 </div>
             </div>
         </div>
@@ -40,9 +95,6 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Client ID</th>
                             <th>Status</th>
                             <th>Role</th>
                             <th>Created At</th>
@@ -55,76 +107,7 @@
     </div>
 
 
-    <!-- Modal to add new record -->
-    <div class="modal modal-slide-in fade" id="addAdvertisingModel">
-        <div class="modal-dialog sidebar-sm">
-            <form class="add-new-record modal-content pt-0" method="post" action="{{route('admin.users.save')}}">
-                @csrf
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-                <div class="modal-header mb-1">
-                    <h5 class="modal-title" id="exampleModalLabel">New User</h5>
-                </div>
-                <div class="modal-body flex-grow-1">
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-1">
-                                <label class="form-label" for="first-name-vertical">Name</label>
-                                <input type="text" id="first-name-vertical" class="form-control" name="name" placeholder="Name" value="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-1">
-                                <label class="form-label" for="first-name-vertical">Email</label>
-                                <input type="email" id="first-name-vertical" class="form-control" name="email" placeholder="Email" value="">
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="mb-1">
-                                <label class="form-label" for="first-name-vertical">Address</label>
-                                <input type="text" id="first-name-vertical" class="form-control" name="address" placeholder="Address" value="">
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="mb-1">
-                                <label class="form-label" for="first-name-vertical">Phone Number</label>
-                                <input type="text" id="first-name-vertical" class="form-control" name="phone" placeholder="Phone Number" value="">
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="mb-1">
-                                <label class="form-label" for="first-name-vertical">Client ID</label>
-                                <input type="text" id="first-name-vertical" class="form-control" name="client_id" placeholder="Client ID" value="">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-1">
-                                <label class="form-label" for="first-name-vertical">Password</label>
-                                <input type="text" id="first-name-vertical" class="form-control" name="password" placeholder="Password" value="">
-                            </div>
-                        </div>
-                        <!-- <div class="demo-inline-spacing">
-                            <div class="form-check form-check-success">
-                                <input type="radio" id="customColorRadio1" name="status" class="form-check-input" value="1" >
-                                <label class="form-check-label" for="customColorRadio1">Active </label>
-                            </div>
-                            <div class="form-check form-check-warning">
-                                <input type="radio" id="customColorRadio2" name="status" class="form-check-input" value="0" >
-                                <label class="form-check-label" for="customColorRadio2">In Active</label>
-                            </div>
-                        </div> -->
-
-
-                        <button type="submit" class="btn btn-primary data-submit me-1">Submit</button>
-                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 </section>
 <!--/ Basic table -->
 
@@ -176,18 +159,7 @@
                     data: 'email',
                     name: 'email'
                 },
-                {
-                    data: 'address',
-                    name: 'address'
-                },
-                {
-                    data: 'phone',
-                    name: 'phone'
-                },
-                {
-                    data: 'client_id',
-                    name: 'client_id'
-                },
+
                 {
                     data: 'status',
                     render: function(data) {

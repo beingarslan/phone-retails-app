@@ -32,5 +32,15 @@ class UserSeeder extends Seeder
             'password' => Hash::make('1234567890') 
         ]);
         $user->assignRole(User::ADMIN_ROLE);
+
+        for ($i=0; $i < rand(10, 15); $i++) { 
+            $user = User::create([
+                'name' => $faker->name, 
+                'email' => $faker->email,
+                'password' => Hash::make('1234567890'),
+                'status' => rand(0, 1)
+            ]);
+            $user->assignRole(User::USER_ROLE);
+        }
     }
 }

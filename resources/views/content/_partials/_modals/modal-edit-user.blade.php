@@ -13,58 +13,23 @@
         <form id="editUserForm" class="row gy-1 pt-75" onsubmit="return false">
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserFirstName">First Name</label>
-            <input
-              type="text"
-              id="modalEditUserFirstName"
-              name="modalEditUserFirstName"
-              class="form-control"
-              placeholder="John"
-              value="Gertrude"
-              data-msg="Please enter your first name"
-            />
+            <input type="text" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="John" value="Gertrude" data-msg="Please enter your first name" />
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserLastName">Last Name</label>
-            <input
-              type="text"
-              id="modalEditUserLastName"
-              name="modalEditUserLastName"
-              class="form-control"
-              placeholder="Doe"
-              value="Barton"
-              data-msg="Please enter your last name"
-            />
+            <input type="text" id="modalEditUserLastName" name="modalEditUserLastName" class="form-control" placeholder="Doe" value="Barton" data-msg="Please enter your last name" />
           </div>
           <div class="col-12">
             <label class="form-label" for="modalEditUserName">Username</label>
-            <input
-              type="text"
-              id="modalEditUserName"
-              name="modalEditUserName"
-              class="form-control"
-              value="gertrude.dev"
-              placeholder="john.doe.007"
-            />
+            <input type="text" id="modalEditUserName" name="modalEditUserName" class="form-control" value="gertrude.dev" placeholder="john.doe.007" />
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserEmail">Billing Email:</label>
-            <input
-              type="text"
-              id="modalEditUserEmail"
-              name="modalEditUserEmail"
-              class="form-control"
-              value="gertrude@gmail.com"
-              placeholder="example@domain.com"
-            />
+            <input type="text" id="modalEditUserEmail" name="modalEditUserEmail" class="form-control" value="gertrude@gmail.com" placeholder="example@domain.com" />
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserStatus">Status</label>
-            <select
-              id="modalEditUserStatus"
-              name="modalEditUserStatus"
-              class="form-select"
-              aria-label="Default select example"
-            >
+            <select id="modalEditUserStatus" name="modalEditUserStatus" class="form-select" aria-label="Default select example">
               <option selected>Status</option>
               <option value="1">Active</option>
               <option value="2">Inactive</option>
@@ -73,25 +38,11 @@
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditTaxID">Tax ID</label>
-            <input
-              type="text"
-              id="modalEditTaxID"
-              name="modalEditTaxID"
-              class="form-control modal-edit-tax-id"
-              placeholder="Tax-8894"
-              value="Tax-8894"
-            />
+            <input type="text" id="modalEditTaxID" name="modalEditTaxID" class="form-control modal-edit-tax-id" placeholder="Tax-8894" value="Tax-8894" />
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserPhone">Contact</label>
-            <input
-              type="text"
-              id="modalEditUserPhone"
-              name="modalEditUserPhone"
-              class="form-control phone-number-mask"
-              placeholder="+1 (609) 933-44-22"
-              value="+1 (609) 933-44-22"
-            />
+            <input type="text" id="modalEditUserPhone" name="modalEditUserPhone" class="form-control phone-number-mask" placeholder="+1 (609) 933-44-22" value="+1 (609) 933-44-22" />
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalEditUserLanguage">Language</label>

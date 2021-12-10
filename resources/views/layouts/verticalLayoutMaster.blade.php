@@ -1,5 +1,6 @@
 <body class="vertical-layout vertical-menu-modern {{ $configData['verticalMenuNavbarType'] }} {{ $configData['blankPageClass'] }} {{ $configData['bodyClass'] }} {{ $configData['sidebarClass']}} {{ $configData['footerType'] }} {{$configData['contentLayout']}}" data-open="click" data-menu="vertical-menu-modern" data-col="{{$configData['showMenu'] ? $configData['contentLayout'] : '1-column' }}" data-framework="laravel" data-asset-path="{{ asset('/')}}">
   <!-- BEGIN: Header-->
+  @include('sweetalert::alert')
   @include('panels.navbar')
   <!-- END: Header-->
 

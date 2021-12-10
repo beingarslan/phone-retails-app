@@ -14,8 +14,8 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory, Notifiable, HasRoles;
 
     // Roles
-    public const ADMIN_ROLE = 'admin';
-    public const USER_ROLE = 'user';
+    public const ADMIN_ROLE = 'Admin';
+    public const USER_ROLE = 'User';
 
     // End Roles
     /**
@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'theme',
         'avatar',
+        'status',
     ];
 
     /**

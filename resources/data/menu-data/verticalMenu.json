@@ -11,8 +11,8 @@
       "name": "Users",
       "badgeClass": "badge badge-light-primary rounded-pill ms-auto me-1",
       "icon": "users",
-      "slug": "users",
-      "url": "users/list"
+      "slug": "admin.users.manage",
+      "url": "/admin/users/manage"
     }
    
   ]

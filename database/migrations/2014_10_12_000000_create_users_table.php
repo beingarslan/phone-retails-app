@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('theme')->default('light')->nullable();
             $table->string('avatar')->default('default.png')->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
