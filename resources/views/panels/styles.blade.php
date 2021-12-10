@@ -7,7 +7,7 @@
 
 @yield('vendor-style')
 <!-- END: Vendor CSS-->
-
+@livewireStyles
 <!-- BEGIN: Theme CSS-->
 <link rel="stylesheet" href="{{ asset(mix('css/core.css')) }}" />
 <link rel="stylesheet" href="{{ asset(mix('css/base/themes/dark-layout.css')) }}" />
