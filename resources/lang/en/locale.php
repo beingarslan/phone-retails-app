@@ -1,6 +1,10 @@
 <?php
 
 return [
+    // 
+    "Dashboard" => "Dashboard",
+    "Users" => "Users",
+    // 
     "Apps & Pages" => "Apps & Pages",
     "User Interface" => "User Interface",
     "Dashboards" => "Dashboards",

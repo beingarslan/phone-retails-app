@@ -7,7 +7,7 @@ $configData = Helper::applClasses();
       <li class="nav-item me-auto">
         <a class="navbar-brand" href="{{url('/')}}">
           
-          <h2 class="brand-text">{{env('APP_NAME')}}</h2>
+          {{env('APP_NAME')}}
         </a>
       </li>
       <li class="nav-item nav-toggle">
