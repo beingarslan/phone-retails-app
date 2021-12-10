@@ -1,9 +1,4 @@
-<body class="vertical-layout vertical-menu-modern {{ $configData['verticalMenuNavbarType'] }} {{ $configData['blankPageClass'] }} {{ $configData['bodyClass'] }} {{ $configData['sidebarClass']}} {{ $configData['footerType'] }} {{$configData['contentLayout']}}"
-data-open="click"
-data-menu="vertical-menu-modern"
-data-col="{{$configData['showMenu'] ? $configData['contentLayout'] : '1-column' }}"
-data-framework="laravel"
-data-asset-path="{{ asset('/')}}">
+<body class="vertical-layout vertical-menu-modern {{ $configData['verticalMenuNavbarType'] }} {{ $configData['blankPageClass'] }} {{ $configData['bodyClass'] }} {{ $configData['sidebarClass']}} {{ $configData['footerType'] }} {{$configData['contentLayout']}}" data-open="click" data-menu="vertical-menu-modern" data-col="{{$configData['showMenu'] ? $configData['contentLayout'] : '1-column' }}" data-framework="laravel" data-asset-path="{{ asset('/')}}">
   <!-- BEGIN: Header-->
   @include('panels.navbar')
   <!-- END: Header-->
@@ -54,13 +49,7 @@ data-asset-path="{{ asset('/')}}">
   </div>
   <!-- End: Content-->
 
-  @if($configData['blankPage'] == false && isset($configData['blankPage']))
-  <!-- BEGIN: Customizer-->
-  @include('content/pages/customizer')
-  <!-- End: Customizer-->
-  <!-- Buynow Button-->
-  @include('content/pages/buy-now')
-  @endif
+  
 
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>
@@ -75,10 +64,12 @@ data-asset-path="{{ asset('/')}}">
     $(window).on('load', function() {
       if (feather) {
         feather.replace({
-          width: 14, height: 14
+          width: 14,
+          height: 14
         });
       }
     })
   </script>
 </body>
+
 </html>
