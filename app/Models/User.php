@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
     // Roles
     public const ADMIN_ROLE = 'admin';
     public const USER_ROLE = 'user';
-    
+
     // End Roles
     /**
      * The attributes that are mass assignable.
@@ -27,6 +27,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'theme',
+        'avatar',
     ];
 
     /**
