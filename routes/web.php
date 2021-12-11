@@ -87,13 +87,13 @@ Route::group(
                 );
                 Route::group(
                     [
-                        'prefix' => 'advertisings',
-                        'as' => 'advertisings.'
+                        'prefix' => 'categories',
+                        'as' => 'categories.'
                     ],
                     function () {
                         Route::get('/manage', [AdvertisingController::class, 'manage'])->name('manage');
                         Route::post('/save', [AdvertisingController::class, 'save'])->name('save');
-                        Route::get('/advertisings', [AdvertisingController::class, 'advertisings'])->name('advertisings');
+                        Route::get('/categories', [AdvertisingController::class, 'categories'])->name('categories');
                         Route::get('/single/{id}', [AdvertisingController::class, 'single'])->name('single');
                         Route::post('/edit', [AdvertisingController::class, 'edit'])->name('edit');
                         Route::post('/remove', [AdvertisingController::class, 'remove'])->name('remove');

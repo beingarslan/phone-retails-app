@@ -158,4 +158,12 @@ class Helper
             }
         }
     }
+
+    // Make slug
+    public static function makeSlug($string)
+    {
+        $slug = Str::slug($string);
+        $slug = str_replace('-', '_', $slug);
+        return $slug;
+    }
 }

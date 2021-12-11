@@ -4,6 +4,7 @@ return [
     // 
     "Dashboard" => "Dashboard",
     "Users" => "Users",
+    "Categories" => "Categories",
     // 
     "Apps & Pages" => "Apps & Pages",
     "User Interface" => "User Interface",
