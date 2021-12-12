@@ -15,6 +15,7 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -91,12 +92,12 @@ Route::group(
                         'as' => 'categories.'
                     ],
                     function () {
-                        Route::get('/manage', [AdvertisingController::class, 'manage'])->name('manage');
-                        Route::post('/save', [AdvertisingController::class, 'save'])->name('save');
-                        Route::get('/categories', [AdvertisingController::class, 'categories'])->name('categories');
-                        Route::get('/single/{id}', [AdvertisingController::class, 'single'])->name('single');
-                        Route::post('/edit', [AdvertisingController::class, 'edit'])->name('edit');
-                        Route::post('/remove', [AdvertisingController::class, 'remove'])->name('remove');
+                        Route::get('/manage', [CategoryController::class, 'manage'])->name('manage');
+                        Route::post('/save', [CategoryController::class, 'save'])->name('save');
+                        Route::get('/categories', [CategoryController::class, 'categories'])->name('categories');
+                        Route::get('/single/{id}', [CategoryController::class, 'single'])->name('single');
+                        Route::post('/edit', [CategoryController::class, 'edit'])->name('edit');
+                        Route::post('/remove', [CategoryController::class, 'remove'])->name('remove');
                     }
                 );
             }

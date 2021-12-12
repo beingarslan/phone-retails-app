@@ -12,32 +12,30 @@ use Yajra\DataTables\Facades\DataTables as DataTables;
 class CategoryController extends Controller
 {
     public $user;
-    public $role;
+    public $categories;
     public $role_options;
     public function __construct()
     {
-        $this->roles = Role::all()->pluck('name');
-        $this->role_options = '';
-        foreach ($this->roles as $role) {
-            $this->role_options .= '<option value="' . $role . '">' . $role . '</option>';
-        }
+        $this->categories = Category::all();
     }
     public function manage()
     {
-        // roles
-        $roles = $this->roles;
+        $categories = $this->categories;
 
-        return view('admin.users.manage', [
-            'roles' => $roles,
+        return view('admin.categories.manage', [
+            'categories' => $categories,
         ]);
     }
 
-    public function users()
+    public function categories()
     {
         try {
             return DataTables::of(Category::all())
-                ->addColumn('role', function ($category) {
-                    return $category->getRoleNames()[0];
+                ->addColumn('parent', function ($category) {
+                    return $category->parent_id ? $category->parent->title : 'N/A';
+                })
+                ->addColumn('description', function ($category) {
+                    return substr($category->description, 0, rand(30, 40));
                 })
                 ->addColumn('action', function ($category) {
                     return '
@@ -49,11 +47,6 @@ class CategoryController extends Controller
                 </div>
                 ';
                 })
-                ->addColumn('created_at', function ($category) {
-                    return $category->created_at != null ? $category->created_at->format('h:i A,   d M, Y') : 'N/A';
-                })
-
-
                 ->make(true);
         } catch (\Throwable $th) {
             throw $th;
@@ -72,7 +65,7 @@ class CategoryController extends Controller
                     </div>
                     <div class="modal-body pb-5 px-sm-5 pt-50">
                         <div class="text-center mb-2">
-                            <h1 class="mb-1">Add User</h1>
+                            <h1 class="mb-1">Update Category</h1>
                             <!-- <p>Updating user details will receive a privacy audit.</p> -->
                         </div>
                         <form id="editUserForm" class="row gy-1 pt-75" action="' . route('admin.categories.edit') . '" method="POST">
@@ -89,15 +82,14 @@ class CategoryController extends Controller
 
                                 </div>
                             </div>
+                            
                             <div class="col-12">
-                                <div class="mb-1">
-                                    <label class="form-label" for="first-name-vertical">User Role</label>
-                                    <select class="form-control" name="role">
-                                        <option selected value="' . $category->getRoleNames()[0] . '">' . $category->getRoleNames()[0] . '</option>
-                                        ' . $this->role_options . '
-                                    </select>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" id="description" name="description" placeholder="Description">' . $category->description . '</textarea>
                                 </div>
                             </div>
+                            
                             <div class="col-12">
                                 <div class="demo-inline-spacing">
                                     <div class="form-check form-check-inline">

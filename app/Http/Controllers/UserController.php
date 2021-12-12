@@ -74,7 +74,7 @@ class UserController extends Controller
                     </div>
                     <div class="modal-body pb-5 px-sm-5 pt-50">
                         <div class="text-center mb-2">
-                            <h1 class="mb-1">Add User</h1>
+                            <h1 class="mb-1">Update User</h1>
                             <!-- <p>Updating user details will receive a privacy audit.</p> -->
                         </div>
                         <form id="editUserForm" class="row gy-1 pt-75" action="' . route('admin.users.edit') . '" method="POST">
