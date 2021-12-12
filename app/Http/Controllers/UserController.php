@@ -181,7 +181,7 @@ class UserController extends Controller
             $userupdate =  $user->update([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
-                'password' => Hash::make('1234567890'),
+                // 'password' => Hash::make('1234567890'),
                 'status' => $request->input('status'),
 
             ]);
