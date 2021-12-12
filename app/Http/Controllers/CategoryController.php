@@ -13,10 +13,14 @@ class CategoryController extends Controller
 {
     public $user;
     public $categories;
-    public $role_options;
+    public $category_options;
     public function __construct()
     {
         $this->categories = Category::all();
+        $this->category_options = '';
+        foreach ($this->categories as $category) {
+            $this->category_options .= '<option value="' . $category->id . '">' . $category->title . '</option>';
+        }
     }
     public function manage()
     {
@@ -79,14 +83,17 @@ class CategoryController extends Controller
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-
-                                </div>
-                            </div>
-                            
-                            <div class="col-12">
-                                <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea class="form-control" id="description" name="description" placeholder="Description">' . $category->description . '</textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="parent">Parent</label>
+                                    <select class="form-control select2" id="parent" name="parent_id">
+                                        <option selected value="'.( $category->parent_id ? $category->parent_id : '' ).'">'.( $category->parent_id ? $category->parent->title : 'Select Parent Category' ).'</option>
+                                        ' . $this->category_options . '
+                                    </select>
                                 </div>
                             </div>
                             
@@ -96,7 +103,7 @@ class CategoryController extends Controller
                                         <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1" ' . ($category->status ? 'checked' : '') . '>
                                         <label class="form-check-label" for="inlineRadio1">Active</label>
                                     </div>
-                                    <div class="form-check form-check-inline">
+                                    <div class="form-check form-check-warning">
                                         <input class="form-check-input"  type="radio" name="status" id="inlineRadio2" value="0" ' . ($category->status ? '' : 'checked') . ' >
                                         <label class="form-check-label" for="inlineRadio2">In-Active</label>
                                     </div>
