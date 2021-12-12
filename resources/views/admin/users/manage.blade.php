@@ -142,6 +142,9 @@
             responsive: false,
             processing: true,
             serverSide: true,
+            order: [
+                [0, "desc"]
+        ],
             ajax: '{!! route("admin.users.users") !!}',
             columns: [
 

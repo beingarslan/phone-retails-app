@@ -17,6 +17,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,7 +83,7 @@ Route::group(
                         Route::get('/users', [UserController::class, 'users'])->name('users');
                         Route::post('/edit', [UserController::class, 'edit'])->name('edit');
                         Route::post('/save', [UserController::class, 'save'])->name('save');
-                        Route::post('/edit/role', [UserController::class, 'edit_role'])->name('edit.role');
+                        // Route::post('/edit/role', [UserController::class, 'edit_role'])->name('edit.role');
                         Route::post('/remove', [UserController::class, 'remove'])->name('remove');
                     }
                 );
@@ -95,9 +96,23 @@ Route::group(
                         Route::get('/manage', [CategoryController::class, 'manage'])->name('manage');
                         Route::post('/save', [CategoryController::class, 'save'])->name('save');
                         Route::get('/categories', [CategoryController::class, 'categories'])->name('categories');
-                        Route::get('/single/{id}', [CategoryController::class, 'single'])->name('single');
+                        // Route::get('/single/{id}', [CategoryController::class, 'single'])->name('single');
                         Route::post('/edit', [CategoryController::class, 'edit'])->name('edit');
                         Route::post('/remove', [CategoryController::class, 'remove'])->name('remove');
+                    }
+                );
+                Route::group(
+                    [
+                        'prefix' => 'products',
+                        'as' => 'products.'
+                    ],
+                    function () {
+                        Route::get('/manage', [ProductController::class, 'manage'])->name('manage');
+                        Route::post('/save', [ProductController::class, 'save'])->name('save');
+                        Route::get('/products', [ProductController::class, 'products'])->name('categories');
+                        // Route::get('/single/{id}', [ProductController::class, 'single'])->name('single');
+                        Route::post('/edit', [ProductController::class, 'edit'])->name('edit');
+                        Route::post('/remove', [ProductController::class, 'remove'])->name('remove');
                     }
                 );
             }

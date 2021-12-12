@@ -162,8 +162,7 @@ class CategoryController extends Controller
             'id' => 'required|integer',
             'title' => 'required|max:100',
             'status' => 'required|integer',
-            'role' => 'required'
-
+            'description' => 'required|max:255',
         ]);
 
         // print validation error message
@@ -175,12 +174,12 @@ class CategoryController extends Controller
         try {
             $category = Category::find($request->id);
             $userupdate =  $category->update([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
+                'title' => $request->input('title'),
                 'status' => $request->input('status'),
-
+                'description' => $request->input('description'),
+                'parent_id' => $request->input('parent_id'),
             ]);
-            $category->syncRoles([$request->input('role')]);
+
             Alert::success('Success', 'Category Updated Successfully!');
 
             return redirect()->back();
@@ -207,29 +206,24 @@ class CategoryController extends Controller
     {
         // Validate user data
         $validated = Validator::make($request->all(), [
-            'name' => 'required|max:100',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-            'role' => 'required'
+            'title' => 'required|max:100',
+            'description' => 'required|max:255',
         ]);
 
         // print validation error message
         if ($validated->fails()) {
-            // foreach ($validated->messages()->getMessages() as $field_name => $messages) {
-            //     foreach ($messages as $message) {
-            //         $errors[] = $message;
-            //     }
-            // }
+            
             Alert::warning('Input Error', $validated->errors()->all());
             return redirect()->back()->withErrors($validated)->withInput();
         }
 
         try {
             $user =  Category::create([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'parent_id' => $request->input('parent_id'),
             ]);
-            $user->syncRoles([$request->input('role')]);
+
             Alert::success('Success', 'Category Added Successfully!');
 
             return redirect()->back();

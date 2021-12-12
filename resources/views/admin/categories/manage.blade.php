@@ -35,18 +35,18 @@
                                         <h1 class="mb-1">Add Category</h1>
                                         <!-- <p>Updating user details will receive a privacy audit.</p> -->
                                     </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.users.save')}}" method="POST">
+                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.categories.save')}}" method="POST">
                                         @csrf
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="name">Name</label>
-                                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                                                <label for="name">Title</label>
+                                                <input type="text" class="form-control" id="name" name="title" placeholder="Title">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="email">Desription</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="desription" rows="3" placeholder="Desription"></textarea>
+                                                <label for="email">Description</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
                                             </div>
                                         </div>
 
@@ -142,6 +142,9 @@
             responsive: false,
             processing: true,
             serverSide: true,
+            order: [
+                [0, "desc"]
+            ],
             ajax: '{!! route("admin.categories.categories") !!}',
             columns: [
 
