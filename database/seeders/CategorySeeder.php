@@ -29,9 +29,8 @@ class CategorySeeder extends Seeder
         for ($i = 0; $i < rand(10, 15); $i++) {
             $parent = rand(0, 1);
             $category = new Category();
-            $title = $faker->name;
-            $category->title = $title;
-            $category->slug = Str::slug($title);
+            $category->title = $faker->name;
+            $category->slug = Str::slug($category->title);
             $category->description = $faker->sentence;
             $category->status = rand(0, 1);
             $category->parent_id = $parent ? Category::all()->random()->id : null;

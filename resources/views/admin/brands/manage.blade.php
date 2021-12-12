@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Manage Categories')
+@section('title', 'Manage Brands')
 
 @section('vendor-style')
 {{-- vendor css files --}}
@@ -22,7 +22,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <button type="button" class="btn btn-gradient-primary" data-bs-toggle="modal" data-bs-target="#addAdvertisingModel">Add Category</button>
+                    <button type="button" class="btn btn-gradient-primary" data-bs-toggle="modal" data-bs-target="#addAdvertisingModel">Add Brand</button>
                     <!-- Add User Model -->
                     <div class="modal fade" id="addAdvertisingModel" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
@@ -32,15 +32,15 @@
                                 </div>
                                 <div class="modal-body pb-5 px-sm-5 pt-50">
                                     <div class="text-center mb-2">
-                                        <h1 class="mb-1">Add Category</h1>
+                                        <h1 class="mb-1">Add Brand</h1>
                                         <!-- <p>Updating user details will receive a privacy audit.</p> -->
                                     </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.categories.save')}}" method="POST">
+                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.brands.save')}}" method="POST">
                                         @csrf
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label for="name">Title</label>
-                                                <input type="text" class="form-control" id="name" name="title" placeholder="Title">
+                                                <label for="name">Name</label>
+                                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -49,18 +49,7 @@
                                                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
                                             </div>
                                         </div>
-
-                                        <div class="col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="select2-basic">Parent Category <small class="text-primary">(optional)</small></label>
-                                                <select name="parent_id" class="select2 form-select" id="select2-basic">
-                                                    <option value="">Select Parent Category</option>
-                                                    @foreach($categories as $category)
-                                                    <option value="{{$category->id}}">{{$category->title}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="col-12 text-center mt-2 pt-50">
                                             <button type="submit" class="btn btn-primary me-1">Submit</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
@@ -90,10 +79,9 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Title</th>
+                            <th>Name</th>
                             <th>Description</th>
                             <th>Status</th>
-                            <th>Parent</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -144,7 +132,7 @@
             order: [
                 [0, "desc"]
             ],
-            ajax: '{!! route("admin.categories.categories") !!}',
+            ajax: '{!! route("admin.brands.brands") !!}',
             columns: [
 
                 {
@@ -152,7 +140,7 @@
                     name: 'id'
                 },
                 {
-                    data: 'title',
+                    data: 'name',
                     render: function(data) {
                         return '<b>' + data + '</b>'
                     }
@@ -170,12 +158,6 @@
                         } else {
                             return '<span class="badge badge-glow bg-warning">In Active</span>'
                         }
-                    }
-                },
-                {
-                    data: 'parent',
-                    render: function(data) {
-                        return '<b>' + data + '</b>'
                     }
                 },
                 {

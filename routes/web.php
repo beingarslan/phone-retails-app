@@ -15,6 +15,7 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProductController;
@@ -99,6 +100,20 @@ Route::group(
                         // Route::get('/single/{id}', [CategoryController::class, 'single'])->name('single');
                         Route::post('/edit', [CategoryController::class, 'edit'])->name('edit');
                         Route::post('/remove', [CategoryController::class, 'remove'])->name('remove');
+                    }
+                );
+                Route::group(
+                    [
+                        'prefix' => 'brands',
+                        'as' => 'brands.'
+                    ],
+                    function () {
+                        Route::get('/manage', [BrandController::class, 'manage'])->name('manage');
+                        Route::post('/save', [BrandController::class, 'save'])->name('save');
+                        Route::get('/brands', [BrandController::class, 'brands'])->name('brands');
+                        // Route::get('/single/{id}', [BrandController::class, 'single'])->name('single');
+                        Route::post('/edit', [BrandController::class, 'edit'])->name('edit');
+                        Route::post('/remove', [BrandController::class, 'remove'])->name('remove');
                     }
                 );
                 Route::group(

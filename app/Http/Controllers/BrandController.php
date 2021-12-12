@@ -2,52 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-use Spatie\Permission\Models\Role;
-use Yajra\DataTables\Facades\DataTables as DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
     public $user;
-    public $categories;
-    public $category_options;
+    public $brands;
+    public $brand_options;
     public function __construct()
     {
-        $this->categories = Category::all();
-        $this->category_options = '';
-        foreach ($this->categories as $category) {
-            $this->category_options .= '<option value="' . $category->id . '">' . $category->title . '</option>';
-        }
+        $this->brands = Brand::all();
     }
     public function manage()
     {
-        $categories = $this->categories;
-
-        return view('admin.categories.manage', [
-            'categories' => $categories,
-        ]);
+        return view('admin.brands.manage');
     }
 
-    public function categories()
+    public function brands()
     {
         try {
-            return DataTables::of(Category::all())
-                ->addColumn('parent', function ($category) {
-                    return $category->parent_id ? $category->parent->title : 'N/A';
+            return DataTables::of(Brand::all())
+               
+                ->addColumn('description', function ($brand) {
+                    return substr($brand->description, 0, rand(30, 40));
                 })
-                ->addColumn('description', function ($category) {
-                    return substr($category->description, 0, rand(30, 40));
-                })
-                ->addColumn('action', function ($category) {
+                ->addColumn('action', function ($brand) {
                     return '
                 <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal" data-bs-target="#editModel' . $category->id . '">Edit</button>
-                <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $category->id . '">X</button>
-                ' . $this->edit_user_form($category) . '
-                ' . $this->remove_user_form($category) . '
+                <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal" data-bs-target="#editModel' . $brand->id . '">Edit</button>
+                <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $brand->id . '">X</button>
+                ' . $this->edit_user_form($brand) . '
+                ' . $this->remove_user_form($brand) . '
                 </div>
                 ';
                 })
@@ -57,11 +46,11 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit_user_form($category)
+    public function edit_user_form($brand)
     {
 
         return '
-            <div class="modal fade" id="editModel' . $category->id . '" tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="editModel' . $brand->id . '" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
                 <div class="modal-content">
                     <div class="modal-header bg-transparent">
@@ -69,42 +58,34 @@ class CategoryController extends Controller
                     </div>
                     <div class="modal-body pb-5 px-sm-5 pt-50">
                         <div class="text-center mb-2">
-                            <h1 class="mb-1">Update Category</h1>
+                            <h1 class="mb-1">Update Brand</h1>
                             <!-- <p>Updating user details will receive a privacy audit.</p> -->
                         </div>
-                        <form id="editUserForm" class="row gy-1 pt-75" action="' . route('admin.categories.edit') . '" method="POST">
+                        <form id="editUserForm" class="row gy-1 pt-75" action="' . route('admin.brands.edit') . '" method="POST">
                         ' . csrf_field() . '
-                            <input type="hidden" name="id" value="' . $category->id . '">
+                            <input type="hidden" name="id" value="' . $brand->id . '">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="name">Title</label>
-                                    <input type="text" class="form-control" id="name" name="title" placeholder="Title" value="' . $category->title . '">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="' . $brand->name . '">
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="description" placeholder="Description">' . $category->description . '</textarea>
+                                    <textarea class="form-control" id="description" name="description" placeholder="Description">' . $brand->description . '</textarea>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="parent">Parent</label>
-                                    <select class="form-control select2" id="parent" name="parent_id">
-                                        <option selected value="' . ($category->parent_id ? $category->parent_id : '') . '">' . ($category->parent_id ? $category->parent->title : 'Select Parent Category') . '</option>
-                                        ' . $this->category_options . '
-                                    </select>
-                                </div>
-                            </div>
+                           
                             
                             <div class="col-12">
                                 <div class="demo-inline-spacing">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1" ' . ($category->status ? 'checked' : '') . '>
+                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1" ' . ($brand->status ? 'checked' : '') . '>
                                         <label class="form-check-label" for="inlineRadio1">Active</label>
                                     </div>
                                     <div class="form-check form-check-warning">
-                                        <input class="form-check-input"  type="radio" name="status" id="inlineRadio2" value="0" ' . ($category->status ? '' : 'checked') . ' >
+                                        <input class="form-check-input"  type="radio" name="status" id="inlineRadio2" value="0" ' . ($brand->status ? '' : 'checked') . ' >
                                         <label class="form-check-label" for="inlineRadio2">In-Active</label>
                                     </div>
                                 </div>
@@ -125,17 +106,17 @@ class CategoryController extends Controller
     }
 
 
-    public function remove_user_form($category)
+    public function remove_user_form($brand)
     {
         return '
-        <form action="' . route('admin.categories.remove') . '" method="post">
+        <form action="' . route('admin.brands.remove') . '" method="post">
                 ' . csrf_field() . '
-                    <input name="id" type="hidden" value="' . $category->id . '">
-                    <div class="modal fade" id="removeModel' . $category->id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <input name="id" type="hidden" value="' . $brand->id . '">
+                    <div class="modal fade" id="removeModel' . $brand->id . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Remove ' . $category->title . '</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Remove ' . $brand->name . '</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -160,7 +141,7 @@ class CategoryController extends Controller
         // Validate user data
         $validated = Validator::make($request->all(), [
             'id' => 'required|integer',
-            'title' => 'required|max:100',
+            'name' => 'required|max:100',
             'status' => 'required|integer',
             'description' => 'required|max:255',
         ]);
@@ -172,15 +153,14 @@ class CategoryController extends Controller
         }
 
         try {
-            $category = Category::find($request->id);
-            $userupdate =  $category->update([
-                'title' => $request->input('title'),
+            $brand = Brand::find($request->id);
+            $userupdate =  $brand->update([
+                'name' => $request->input('name'),
                 'status' => $request->input('status'),
                 'description' => $request->input('description'),
-                'parent_id' => $request->input('parent_id'),
             ]);
 
-            Alert::success('Success', 'Category Updated Successfully!');
+            Alert::success('Success', 'Brand Updated Successfully!');
 
             return redirect()->back();
         } catch (\Exception $th) {
@@ -195,9 +175,9 @@ class CategoryController extends Controller
     {
         try {
             // dd($request->all());
-            $user = Category::where('id', $request->input('id'))->delete();
+            $user = Brand::where('id', $request->input('id'))->delete();
 
-            return redirect()->back()->with('success', 'Category has been removed!');
+            return redirect()->back()->with('success', 'Brand has been removed!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Try Again!');
         }
@@ -206,7 +186,7 @@ class CategoryController extends Controller
     {
         // Validate user data
         $validated = Validator::make($request->all(), [
-            'title' => 'required|max:100',
+            'name' => 'required|max:100',
             'description' => 'required|max:255',
         ]);
 
@@ -218,13 +198,12 @@ class CategoryController extends Controller
         }
 
         try {
-            $user =  Category::create([
-                'title' => $request->input('title'),
+            $user =  Brand::create([
+                'name' => $request->input('name'),
                 'description' => $request->input('description'),
-                'parent_id' => $request->input('parent_id'),
             ]);
 
-            Alert::success('Success', 'Category Added Successfully!');
+            Alert::success('Success', 'Brand Added Successfully!');
 
             return redirect()->back();
         } catch (\Exception $th) {

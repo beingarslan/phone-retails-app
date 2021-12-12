@@ -5,6 +5,7 @@ return [
     "Dashboard" => "Dashboard",
     "Users" => "Users",
     "Categories" => "Categories",
+    "Brands" => "Brands",
     // 
     "Apps & Pages" => "Apps & Pages",
     "User Interface" => "User Interface",

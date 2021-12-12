@@ -5,7 +5,7 @@
       "badgeClass": "badge badge-light-warning rounded-pill ms-auto me-1",
       "icon": "home",
       "slug": "dashboard",
-      "url": "dashboard/analytics"
+      "url": "/dashboard"
     },
     {
       "name": "Users",
@@ -13,6 +13,13 @@
       "icon": "users",
       "slug": "admin.users.manage",
       "url": "/admin/users/manage"
+    },
+    {
+      "name": "Brands",
+      "badgeClass": "badge badge-light-primary rounded-pill ms-auto me-1",
+      "icon": "box",
+      "slug": "admin.brands.manage",
+      "url": "/admin/brands/manage"
     },
     {
       "name": "Categories",
