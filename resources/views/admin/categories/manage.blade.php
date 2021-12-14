@@ -51,14 +51,43 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <div class="mb-1">
-                                                <label class="form-label" for="select2-basic">Parent Category <small class="text-primary">(optional)</small></label>
-                                                <select name="parent_id" class="select2 form-select" id="select2-basic">
-                                                    <option value="">Select Parent Category</option>
-                                                    @foreach($categories as $category)
-                                                    <option value="{{$category->id}}">{{$category->title}}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div class="form-group">
+                                                <div class="demo-inline-spacing">
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
+                                                        <label class="form-check-label" for="customSwitch1">Child Category?</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div id="chilediv" style="display: none;">
+                                            <!-- EAN -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="ean">EAN</label>
+                                                    <input type="text" class="form-control" id="ean" name="ean" placeholder="EAN">
+                                                </div>
+                                            </div>
+                                            <!-- SKU -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="sku">SKU</label>
+                                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="SKU">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="select2-basic">Parent Category</label>
+                                                    <select name="parent_id" class="select2 form-select" id="select2-basic">
+                                                        <option value="">Select Parent Category</option>
+                                                        @foreach($categories as $category)
+                                                        <option value="{{$category->id}}">{{$category->title}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-12 text-center mt-2 pt-50">
@@ -186,6 +215,23 @@
                 }
 
             ]
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // #customSwitch1 change event
+        $('#chilediv').hide();
+        $('#customSwitch1').change(function() {
+            if ($(this).is(':checked')) {
+                // #chilediv show
+                $('#chilediv').show();
+
+            } else {
+                // #chilediv hide
+                $('#chilediv').hide();
+            }
         });
     });
 </script>

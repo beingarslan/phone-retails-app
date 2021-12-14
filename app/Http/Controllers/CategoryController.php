@@ -16,7 +16,8 @@ class CategoryController extends Controller
     public $category_options;
     public function __construct()
     {
-        $this->categories = Category::all();
+        // get categories which has no parent
+        $this->categories = Category::whereNull('parent_id')->get();
         $this->category_options = '';
         foreach ($this->categories as $category) {
             $this->category_options .= '<option value="' . $category->id . '">' . $category->title . '</option>';

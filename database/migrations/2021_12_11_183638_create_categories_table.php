@@ -19,6 +19,8 @@ class CreateCategoriesTable extends Migration
             $table->text('description')->nullable();
             $table->string('slug', 255)->nullable();
             $table->string('image')->default('default.png');
+            $table->string('ean')->nullable();
+            $table->string('sku')->nullable();
             $table->foreignId('parent_id')->nullable()->constrained('categories')->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('status')->default(1);
             $table->timestamps();
