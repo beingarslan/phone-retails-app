@@ -16,8 +16,10 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CapacityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -114,6 +116,34 @@ Route::group(
                         // Route::get('/single/{id}', [BrandController::class, 'single'])->name('single');
                         Route::post('/edit', [BrandController::class, 'edit'])->name('edit');
                         Route::post('/remove', [BrandController::class, 'remove'])->name('remove');
+                    }
+                );
+                Route::group(
+                    [
+                        'prefix' => 'colors',
+                        'as' => 'colors.'
+                    ],
+                    function () {
+                        Route::get('/manage', [ColorController::class, 'manage'])->name('manage');
+                        Route::post('/save', [ColorController::class, 'save'])->name('save');
+                        Route::get('/colors', [ColorController::class, 'colors'])->name('colors');
+                        // Route::get('/single/{id}', [ColorController::class, 'single'])->name('single');
+                        Route::post('/edit', [ColorController::class, 'edit'])->name('edit');
+                        Route::post('/remove', [ColorController::class, 'remove'])->name('remove');
+                    }
+                );
+                Route::group(
+                    [
+                        'prefix' => 'capacities',
+                        'as' => 'capacities.'
+                    ],
+                    function () {
+                        Route::get('/manage', [CapacityController::class, 'manage'])->name('manage');
+                        Route::post('/save', [CapacityController::class, 'save'])->name('save');
+                        Route::get('/capacities', [CapacityController::class, 'capacities'])->name('capacities');
+                        // Route::get('/single/{id}', [CapacityController::class, 'single'])->name('single');
+                        Route::post('/edit', [CapacityController::class, 'edit'])->name('edit');
+                        Route::post('/remove', [CapacityController::class, 'remove'])->name('remove');
                     }
                 );
                 Route::group(

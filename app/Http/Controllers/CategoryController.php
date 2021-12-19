@@ -197,10 +197,13 @@ class CategoryController extends Controller
         try {
             // dd($request->all());
             $user = Category::where('id', $request->input('id'))->delete();
+            Alert::success('Success', 'Category deleted Successfully!');
 
-            return redirect()->back()->with('success', 'Category has been removed!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Try Again!');
+            return redirect()->back();
+        } catch (\Exception $th) {
+            Alert::error('Error', $th->getMessage());
+
+            return redirect()->back();
         }
     }
     public function save(Request $request)

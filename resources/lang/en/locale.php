@@ -6,6 +6,7 @@ return [
     "Users" => "Users",
     "Categories" => "Categories",
     "Brands" => "Brands",
+    "Capacity" => "Capacity",
     // 
     "Apps & Pages" => "Apps & Pages",
     "User Interface" => "User Interface",
