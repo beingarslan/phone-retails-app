@@ -43,6 +43,13 @@
       "url": "/admin/categories/manage"
     },
     {
+      "name": "Suppliers",
+      "badgeClass": "badge badge-light-primary rounded-pill ms-auto me-1",
+      "icon": "feather",
+      "slug": "admin.suppliers.manage",
+      "url": "/admin/suppliers/manage"
+    },
+    {
       "name": "Products",
       "badgeClass": "badge badge-light-primary rounded-pill ms-auto me-1",
       "icon": "gift",

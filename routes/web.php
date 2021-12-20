@@ -21,6 +21,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
@@ -158,6 +159,20 @@ Route::group(
                         // Route::get('/single/{id}', [ProductController::class, 'single'])->name('single');
                         Route::post('/edit', [ProductController::class, 'edit'])->name('edit');
                         Route::post('/remove', [ProductController::class, 'remove'])->name('remove');
+                    }
+                );
+                Route::group(
+                    [
+                        'prefix' => 'suppliers',
+                        'as' => 'suppliers.'
+                    ],
+                    function () {
+                        Route::get('/manage', [SupplierController::class, 'manage'])->name('manage');
+                        Route::post('/save', [SupplierController::class, 'save'])->name('save');
+                        Route::get('/suppliers', [SupplierController::class, 'suppliers'])->name('suppliers');
+                        // Route::get('/single/{id}', [SupplierController::class, 'single'])->name('single');
+                        Route::post('/edit', [SupplierController::class, 'edit'])->name('edit');
+                        Route::post('/remove', [SupplierController::class, 'remove'])->name('remove');
                     }
                 );
             }
