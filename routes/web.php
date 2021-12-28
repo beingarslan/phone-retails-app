@@ -107,13 +107,13 @@ Route::group(
                 );
                 Route::group(
                     [
-                        'prefix' => 'brands',
-                        'as' => 'brands.'
+                        'prefix' => 'attributes',
+                        'as' => 'attributes.'
                     ],
                     function () {
                         Route::get('/manage', [BrandController::class, 'manage'])->name('manage');
                         Route::post('/save', [BrandController::class, 'save'])->name('save');
-                        Route::get('/brands', [BrandController::class, 'brands'])->name('brands');
+                        Route::get('/attributes', [BrandController::class, 'attributes'])->name('attributes');
                         // Route::get('/single/{id}', [BrandController::class, 'single'])->name('single');
                         Route::post('/edit', [BrandController::class, 'edit'])->name('edit');
                         Route::post('/remove', [BrandController::class, 'remove'])->name('remove');
