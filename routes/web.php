@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AppsController;
+use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\UserInterfaceController;
 use App\Http\Controllers\CardsController;
 use App\Http\Controllers\ComponentsController;
@@ -111,12 +112,12 @@ Route::group(
                         'as' => 'attributes.'
                     ],
                     function () {
-                        Route::get('/manage', [BrandController::class, 'manage'])->name('manage');
-                        Route::post('/save', [BrandController::class, 'save'])->name('save');
-                        Route::get('/attributes', [BrandController::class, 'attributes'])->name('attributes');
-                        // Route::get('/single/{id}', [BrandController::class, 'single'])->name('single');
-                        Route::post('/edit', [BrandController::class, 'edit'])->name('edit');
-                        Route::post('/remove', [BrandController::class, 'remove'])->name('remove');
+                        Route::get('/manage', [AttributeController::class, 'manage'])->name('manage');
+                        Route::post('/save', [AttributeController::class, 'save'])->name('save');
+                        Route::get('/attributes', [AttributeController::class, 'attributes'])->name('attributes');
+                        // Route::get('/single/{id}', [AttributeController::class, 'single'])->name('single');
+                        Route::post('/edit', [AttributeController::class, 'edit'])->name('edit');
+                        Route::post('/remove', [AttributeController::class, 'remove'])->name('remove');
                     }
                 );
                 Route::group(
