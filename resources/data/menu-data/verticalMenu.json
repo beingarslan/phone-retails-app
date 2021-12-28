@@ -15,11 +15,11 @@
       "url": "/admin/users/manage"
     },
     {
-      "name": "Brands",
+      "name": "Attributes",
       "badgeClass": "badge badge-light-primary rounded-pill ms-auto me-1",
       "icon": "box",
-      "slug": "admin.brands.manage",
-      "url": "/admin/brands/manage"
+      "slug": "admin.attributes.manage",
+      "url": "/admin/attributes/manage"
     },
     {
       "name": "Categories",

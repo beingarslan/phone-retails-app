@@ -9,6 +9,7 @@ return [
     "Capacity" => "Capacity",
     "Products" => "Products",
     "Suppliers" => "Suppliers",
+    "Attributes" => "Attributes",
     // 
     "Apps & Pages" => "Apps & Pages",
     "User Interface" => "User Interface",
