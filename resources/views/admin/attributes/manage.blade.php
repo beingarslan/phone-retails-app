@@ -43,6 +43,7 @@
                                                 <input type="text" class="form-control" id="name" name="title" placeholder="Title">
                                             </div>
                                         </div>
+                                        
                                         <!-- <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email">Description</label>
