@@ -20,6 +20,8 @@ class CreateAttributesTable extends Migration
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
             $table->integer('sort_order')->default(0);
+            $table->string('type')->default('select');
+            $table->json('options')->nullable();
             $table->timestamps();
         });
     }
