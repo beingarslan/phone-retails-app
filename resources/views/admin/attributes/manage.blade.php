@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.css" integrity="sha512-3uVpgbpX33N/XhyD3eWlOgFVAraGn3AfpxywfOTEQeBDByJ/J7HkLvl4mJE1fvArGh4ye1EiPfSBnJo2fgfZmg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 @endsection
 
@@ -50,13 +51,41 @@
                                                 <input type="number" class="form-control" id="sort_order" name="sort_order" placeholder="Sort Order">
                                             </div>
                                         </div>
+                                        <!-- Type radio -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="type">Type</label>
+                                                <div class="demo-inline-spacing">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio1" value="text" checked />
+                                                        <label class="form-check-label" for="inlineRadio1">Text</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio2" value="select" />
+                                                        <label class="form-check-label" for="inlineRadio2">Select</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="select_class" style="display: none;">
+                                            <!-- multiple inputs -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="options">Options</label>
+                                                    <input type="text" class="form-control " id="options" name="options" data-role="tagsinput"  placeholder="Options">
+                                                    
+
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <!-- <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email">Description</label>
                                                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
                                             </div>
                                         </div> -->
-                                        
+
                                         <div class="col-12 text-center mt-2 pt-50">
                                             <button type="submit" class="btn btn-primary me-1">Submit</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
@@ -124,7 +153,7 @@
 <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.6.0/bootstrap-tagsinput.min.js" integrity="sha512-SXJkO2QQrKk2amHckjns/RYjUIBCI34edl9yh0dzgw3scKu0q4Bo/dUr+sGHMUha0j9Q1Y7fJXJMaBi4xtyfDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endsection
 @section('page-script')
 {{-- Page js files --}}
@@ -180,6 +209,19 @@
 
             ]
         });
+    });
+</script>
+
+
+<script>
+    // on change  type_class
+    $(document).on('change', '.type_class', function() {
+        var type = $(this).val();
+        if (type == 'select') {
+            $('.select_class').show();
+        } else {
+            $('.select_class').hide();
+        }
     });
 </script>
 @endsection

@@ -14,47 +14,19 @@
         <div class="card-body">
           <div class="demo-inline-spacing">
             <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="inlineRadio1"
-                value="option1"
-                checked
-              />
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked />
               <label class="form-check-label" for="inlineRadio1">Checked</label>
             </div>
             <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                id="inlineRadio2"
-                value="option2"
-              />
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
               <label class="form-check-label" for="inlineRadio2">Unchecked</label>
             </div>
             <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineRadioDisabledOptions"
-                id="inlineRadio3"
-                value="option3"
-                checked
-                disabled
-              />
+              <input class="form-check-input" type="radio" name="inlineRadioDisabledOptions" id="inlineRadio3" value="option3" checked disabled />
               <label class="form-check-label" for="inlineRadio3">Checked disabled</label>
             </div>
             <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="inlineRadioDisabledOptions"
-                id="inlineRadio4"
-                value="option4"
-                disabled
-              />
+              <input class="form-check-input" type="radio" name="inlineRadioDisabledOptions" id="inlineRadio4" value="option4" disabled />
               <label class="form-check-label" for="inlineRadio4">Unchecked disabled</label>
             </div>
           </div>
