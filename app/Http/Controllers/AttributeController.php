@@ -68,7 +68,12 @@ class AttributeController extends Controller
                                     <input type="text" class="form-control" id="name" name="title" placeholder="Title" value="' . $attribute->title . '">
                                 </div>
                             </div>
-                            
+                            <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="sort_order">Sort Order</label>
+                                                <input type="number" class="form-control" id="sort_order" name="sort_order" placeholder="Sort Order" value="' . $attribute->sort_order . '">
+                                            </div>
+                                        </div>
                            
                             
                             <div class="col-12">
@@ -136,6 +141,7 @@ class AttributeController extends Controller
             'id' => 'required|integer',
             'title' => 'required|max:100',
             'status' => 'required|integer',
+            'sort_order' => 'required|integer',
         ]);
 
         // print validation error message
@@ -150,6 +156,7 @@ class AttributeController extends Controller
                 'title' => $request->input('title'),
                 'slug' => Str::slug($request->input('title')),
                 'status' => $request->input('status'),
+                'sort_order' => $request->input('sort_order'),
             ]);
 
             Alert::success('Success', 'Attribute Updated Successfully!');
@@ -180,6 +187,8 @@ class AttributeController extends Controller
         $validated = Validator::make($request->all(), [
             'title' => 'required|max:100',
             // 'description' => 'required|max:255',
+            'sort_order' => 'required|integer',
+
         ]);
 
         // print validation error message
@@ -193,6 +202,7 @@ class AttributeController extends Controller
             $attribute = new Attribute();
             $attribute->title = $request->input('title');
             $attribute->slug = Str::slug($attribute->title);
+            $attribute->sort_order = $request->input('sort_order');
             $attribute->save();
            
 

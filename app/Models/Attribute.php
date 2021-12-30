@@ -15,5 +15,6 @@ class Attribute extends Model
         'description',
         'slug',
         'status',
+        'sort_order'
     ];
 }

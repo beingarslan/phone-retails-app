@@ -19,6 +19,7 @@ class CreateAttributesTable extends Migration
             $table->text('description')->nullable();
             $table->string('slug')->nullable();
             $table->boolean('status')->default(true);
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
         });
     }

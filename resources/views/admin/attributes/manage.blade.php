@@ -43,7 +43,13 @@
                                                 <input type="text" class="form-control" id="name" name="title" placeholder="Title">
                                             </div>
                                         </div>
-                                        
+                                        <!-- sort_order -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="sort_order">Sort Order</label>
+                                                <input type="number" class="form-control" id="sort_order" name="sort_order" placeholder="Sort Order">
+                                            </div>
+                                        </div>
                                         <!-- <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email">Description</label>
@@ -82,6 +88,7 @@
                             <th>ID</th>
                             <th>Title</th>
                             <th>Slug</th>
+                            <th>Order</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -150,7 +157,10 @@
                     data: 'slug',
                     name: 'slug'
                 },
-
+                {
+                    data: 'sort_order',
+                    name: 'sort_order'
+                },
                 {
                     data: 'status',
                     render: function(data) {
