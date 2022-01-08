@@ -56,9 +56,8 @@ class CategoryController extends Controller
                 ->addColumn('action', function ($category) {
                     return '
                 <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal" data-bs-target="#editModel' . $category->id . '">Edit</button>
+                <a href="/admin/categories/update/'.$category->id.'" class="btn btn-outline-primary waves-effect" >Edit</a>
                 <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $category->id . '">X</button>
-                ' . $this->edit_user_form($category) . '
                 ' . $this->remove_user_form($category) . '
                 </div>
                 ';
@@ -262,5 +261,23 @@ class CategoryController extends Controller
             return redirect()->back();
             // throw $th;
         }
+    }
+
+
+    public function update($id){
+        $category = Category::find($id);
+        $attributes = Attribute::all();
+        $categoryAttributes = $category->categoryAttribute;
+        $categoryAttributes = $categoryAttributes->groupBy('attribute_id');
+        $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
+            return $item->pluck('value', 'attribute_id');
+        });
+        $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
+            return $item->toArray();
+        });
+        $categoryAttributes = $categoryAttributes->toArray();
+        $categoryAttributes = array_combine($attributes->pluck('id')->toArray(), $categoryAttributes);
+        dd($categoryAttributes);
+        return view('admin.categories.update', compact('category', 'attributes', 'categoryAttributes'));
     }
 }

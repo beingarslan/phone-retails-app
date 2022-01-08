@@ -99,6 +99,7 @@ Route::group(
                     ],
                     function () {
                         Route::get('/manage', [CategoryController::class, 'manage'])->name('manage');
+                        Route::get('/update/{id}', [CategoryController::class, 'update'])->name('update');
                         Route::post('/save', [CategoryController::class, 'save'])->name('save');
                         Route::get('/categories', [CategoryController::class, 'categories'])->name('categories');
                         // Route::get('/single/{id}', [CategoryController::class, 'single'])->name('single');
