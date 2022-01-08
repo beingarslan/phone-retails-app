@@ -249,7 +249,7 @@ class CategoryController extends Controller
                         $slug .= '-' . Str::slug($request->input($attribute->slug));
                     }
                 }
-                // dd($slug);
+
                 DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
                 
                 Alert::success('Success', 'Category Created Successfully!');
