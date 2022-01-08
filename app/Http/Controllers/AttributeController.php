@@ -11,9 +11,13 @@ use Illuminate\Support\Str;
 
 class AttributeController extends Controller
 {
-    public function test($id){
+    public function update($id){
         $attribute = Attribute::find($id);
-        $options = '';
+        if(!$attribute){
+            Alert::error('Error', 'Attribute not found');
+            return redirect()->back();
+        }
+        $options = null;
         if(!empty($attribute->options)){
             $new = [];
             $options = json_decode($attribute->options);
@@ -21,8 +25,9 @@ class AttributeController extends Controller
                $new[] = $value->title;
             }
             $options = implode(',', $new);
-            dd($options);
         }
+
+        return view('admin.attributes.update', compact('attribute', 'options'));
 
     }
     public $user;
@@ -45,7 +50,7 @@ class AttributeController extends Controller
                 ->addColumn('action', function ($attribute) {
                     return '
                 <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal" data-bs-target="#editModel' . $attribute->id . '">Edit</button>
+                <a href="/admin/attributes/update/' . $attribute->id . '" class="btn btn-outline-primary waves-effect" >Edit</a>
                 <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $attribute->id . '">X</button>
                 ' . $this->edit_user_form($attribute) . '
                 ' . $this->remove_user_form($attribute) . '
