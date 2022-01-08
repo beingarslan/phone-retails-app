@@ -99,6 +99,7 @@ class AttributeController extends Controller
     {
         // Validate user data
         $validated = Validator::make($request->all(), [
+            'id' => 'required',
             'title' => 'required|max:100',
             // 'description' => 'required|max:255',
             'type' => 'required',
@@ -114,13 +115,22 @@ class AttributeController extends Controller
         }
 
         try {
-            $attribute = new Attribute();
+            $attribute = Attribute::find($request->id);
+            if (!$attribute) {
+                Alert::error('Error', 'Attribute not found');
+                return redirect()->back();
+            }
+            // $attribute = new Attribute();
             $attribute->title = $request->input('title');
             $attribute->slug = Str::slug($attribute->title);
             $attribute->type = $request->input('type');
             $attribute->sort_order = $request->input('sort_order');
             if ($request->input('type') == 'select') {
                 $options = $request->input('options');
+                if (empty($options)) {
+                    Alert::error('Error', 'Options are required');
+                    return redirect()->back();
+                }
                 $new = [];
                 $i = 0;
                 foreach (explode(',', $options) as $key => $value) {
@@ -130,13 +140,14 @@ class AttributeController extends Controller
                     $new[$key]['sort_order'] = $key;
                     $new[$key]['description'] = $value;
                 }
+                
                 $attribute->options = json_encode($new);
             } else {
                 $attribute->options = null;
             }
             $attribute->save();
 
-            Alert::success('Success', 'Attribute Added Successfully!');
+            Alert::success('Success', 'Attribute Updated Successfully!');
 
             return redirect()->back();
         } catch (\Exception $th) {

@@ -66,6 +66,7 @@
 
                     <form id="edit_form" class="row gy-1 pt-75" action="{{route('admin.attributes.edit')}}" method="POST">
                         @csrf
+                        <input type="hidden" name="id" value="{{$attribute->id}}">
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="name">Title</label>
