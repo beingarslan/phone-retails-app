@@ -145,6 +145,7 @@
                             <th>ID</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Slug</th>
                             <th>Status</th>
                             <th>Parent</th>
                             <th>Action</th>
@@ -213,6 +214,10 @@
                 {
                     data: 'description',
                     name: 'description'
+                },
+                {
+                    data: 'slug',
+                    name: 'slug'
                 },
 
                 {

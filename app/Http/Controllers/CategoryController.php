@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Attribute;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\Facades\DataTables as DataTables;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -231,13 +233,31 @@ class CategoryController extends Controller
         }
 
         try {
-            $category =  Category::create([
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'parent_id' => $request->input('parent_id'),
-            ]);
+            DB::transaction(function () use ($request) {
+                $category =  Category::create([
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'parent_id' => $request->input('parent_id'),
+                ]);
+                $slug = Str::slug($category->title);
+                foreach ($this->attributes as $attribute) {
+                    if ($request->has($attribute->slug) && $request->input($attribute->slug) != '') {
+                        $category->categoryAttribute()->create([
+                            'attribute_id' => $attribute->id,
+                            'value' => $request->input($attribute->slug),
+                        ]);
+                        $slug .= '-' . Str::slug($request->input($attribute->slug));
+                    }
+                }
+                // dd($slug);
+                DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
+                
+                // $category->update([
+                //     'slug' => $slug,
+                // ]);
+                Alert::success('Success', 'Category Created Successfully!');
+            });
 
-            Alert::success('Success', 'Category Added Successfully!');
 
             return redirect()->back();
         } catch (\Exception $th) {
