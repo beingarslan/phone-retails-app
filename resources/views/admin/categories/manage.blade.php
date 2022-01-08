@@ -49,7 +49,11 @@
                                                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
                                             </div>
                                         </div>
-
+                                        <div class="col-12">
+                                            <div class="divider mb-0 mt-2">
+                                                <div class="divider-text text-warning">All Attributes are optional</div>
+                                            </div>
+                                        </div>
                                         @foreach($attributes as $attribute)
                                         @if($attribute->type == 'select')
                                         <div class="col-12">
@@ -63,7 +67,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        @else 
+                                        @else
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email">{{$attribute->title}}</label>
