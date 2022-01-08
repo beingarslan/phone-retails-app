@@ -19,14 +19,9 @@ class CategorySeeder extends Seeder
     {
         $faker = Factory::create();
 
-        $attributes = Attribute::where('status', 1)->get();
+        $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
         // create category
-        Category::create([
-            'title' => 'Laravel',
-            'slug' => 'laravel',
-            'description' => $faker->text(100),
-            'status' => 1,
-        ]);
+        
         // get all langaues
         for ($i = 0; $i < rand(10, 15); $i++) {
             $parent = rand(0, 1);
@@ -35,7 +30,6 @@ class CategorySeeder extends Seeder
             $category->slug = Str::slug($category->title);
             $category->description = $faker->sentence;
             $category->status = rand(0, 1);
-            $category->parent_id = $parent ? Category::all()->random()->id : null;
             $category->save();
             // create category attributes
             $attributes->each(function ($attribute) use ($category, $faker) {

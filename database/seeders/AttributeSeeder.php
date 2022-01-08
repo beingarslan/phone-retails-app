@@ -151,7 +151,7 @@ class AttributeSeeder extends Seeder
                 'slug' => 'brand',
                 'description' => 'Brand of the product',
                 'status' => 1,
-                'sort_order' => 4,
+                'sort_order' => 10,
                 'type' => 'select',
                 'options' => json_encode( Array(
                     [
