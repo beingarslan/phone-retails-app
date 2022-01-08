@@ -17,4 +17,11 @@ class Attribute extends Model
         'status',
         'sort_order'
     ];
+
+    public function categoryAttribute()
+    {
+        return $this->hasMany(CategoryAttribute::class, 'attribute_id', 'id');
+    }
+
+    
 }
