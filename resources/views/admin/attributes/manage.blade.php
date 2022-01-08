@@ -75,7 +75,7 @@
                                         <h1 class="mb-1">Add Attribute</h1>
                                         <!-- <p>Updating user details will receive a privacy audit.</p> -->
                                     </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.attributes.save')}}" method="POST">
+                                    <form id="add_form" class="row gy-1 pt-75" action="{{route('admin.attributes.save')}}" method="POST">
                                         @csrf
                                         <div class="col-12">
                                             <div class="form-group">
@@ -124,7 +124,7 @@
                                         </div> -->
 
                                         <div class="col-12 text-center mt-2 pt-50">
-                                            <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                            <button type="button" onclick="submit()" class="btn btn-primary me-1">Submit</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
                                                 Discard
                                             </button>
@@ -197,7 +197,11 @@
 {{-- Page js files --}}
 <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/tables/table-datatables-basic.js')) }}"></script>
-
+<script>
+    function submit() {
+        $('#add_form').submit();
+    }
+</script>
 <script>
     $(function() {
         $('#users-table').DataTable({
