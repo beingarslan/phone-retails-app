@@ -11,6 +11,20 @@ use Illuminate\Support\Str;
 
 class AttributeController extends Controller
 {
+    public function test($id){
+        $attribute = Attribute::find($id);
+        $options = '';
+        if(!empty($attribute->options)){
+            $new = [];
+            $options = json_decode($attribute->options);
+            foreach ($options as $key => $value) {
+               $new[] = $value->title;
+            }
+            $options = implode(',', $new);
+            dd($options);
+        }
+
+    }
     public $user;
     public $attributes;
     public $attributes_options;
@@ -46,59 +60,18 @@ class AttributeController extends Controller
 
     public function edit_user_form($attribute)
     {
+        $options = null;
+        if(!empty($attribute->options)){
+            $new = [];
+            $options = json_decode($attribute->options);
+            foreach ($options as $key => $value) {
+               $new[] = $value->title;
+            }
+            $options = implode(',', $new);
+        }
 
         return '
-            <div class="modal fade" id="" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
-                <div class="modal-content">
-                    <div class="modal-header bg-transparent">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body pb-5 px-sm-5 pt-50">
-                        <div class="text-center mb-2">
-                            <h1 class="mb-1">Update Attribute</h1>
-                            <!-- <p>Updating user details will receive a privacy audit.</p> -->
-                        </div>
-                        <form id="editUserForm" class="row gy-1 pt-75" action="" method="POST">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="name">Title</label>
-                                    <input type="text" class="form-control" id="name" name="title" placeholder="Title" value="' . $attribute->title . '">
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="sort_order">Sort Order</label>
-                                                <input type="number" class="form-control" id="sort_order" name="sort_order" placeholder="Sort Order" value="' . $attribute->sort_order . '">
-                                            </div>
-                                        </div>
-                           
-                            
-                            <div class="col-12">
-                                <div class="demo-inline-spacing">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1" ' . ($attribute->status ? 'checked' : '') . '>
-                                        <label class="form-check-label" for="inlineRadio1">Active</label>
-                                    </div>
-                                    <div class="form-check form-check-warning">
-                                        <input class="form-check-input"  type="radio" name="status" id="inlineRadio2" value="0" ' . ($attribute->status ? '' : 'checked') . ' >
-                                        <label class="form-check-label" for="inlineRadio2">In-Active</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 text-center mt-2 pt-50">
-                                <button type="submit" class="btn btn-primary me-1">Save Changes</button>
-                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
-                                    Discard
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="modal fade" id="editModel' . $attribute->id . '" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
                             <div class="modal-content">
@@ -116,7 +89,7 @@ class AttributeController extends Controller
                                     <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Title</label>
-                                                <input type="text" class="form-control" id="name"value="' . $attribute->name . '" name="title" placeholder="Title">
+                                                <input type="text" class="form-control" id="name"value="' . $attribute->title . '" name="title" placeholder="Title">
                                             </div>
                                         </div>
                                         <!-- sort_order -->
@@ -132,22 +105,22 @@ class AttributeController extends Controller
                                                 <label for="type">Type</label>
                                                 <div class="demo-inline-spacing">
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio1" value="text" checked />
+                                                        <input class="form-check-input type_class" type="radio" name="type"  id="inlineRadio1" value="text" '.($attribute->type == 'text' ? 'checked' : '' ).' />
                                                         <label class="form-check-label" for="inlineRadio1">Text</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio2" value="select" />
+                                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio2" value="select" '.($attribute->type == 'select' ? 'checked' : '' ).' />
                                                         <label class="form-check-label" for="inlineRadio2">Select</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="select_class" style="display: none;">
+                                        <div class="select_class" style="display: '.($attribute->type == 'select' ? 'none' : 'block' ).' ;">
                                             <!-- multiple inputs -->
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="options">Options</label>
-                                                    <input type="text" class="form-control " id="options" name="options" data-role="tagsinput" placeholder="Options">
+                                                    <input type="text" class="form-control " id="options" name="options" value="'.$options.'" data-role="tagsinput" placeholder="Options">
                                                 </div>
                                             </div>
                                         </div>

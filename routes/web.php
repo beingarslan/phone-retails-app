@@ -113,6 +113,7 @@ Route::group(
                     ],
                     function () {
                         Route::get('/manage', [AttributeController::class, 'manage'])->name('manage');
+                        Route::get('/test/{id}', [AttributeController::class, 'test'])->name('test');
                         Route::post('/save', [AttributeController::class, 'save'])->name('save');
                         Route::get('/attributes', [AttributeController::class, 'attributes'])->name('attributes');
                         // Route::get('/single/{id}', [AttributeController::class, 'single'])->name('single');
