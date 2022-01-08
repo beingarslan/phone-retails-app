@@ -15,8 +15,7 @@ class AttributeController extends Controller
     {
         $attribute = Attribute::find($id);
         if (!$attribute) {
-            Alert::error('Error', 'Attribute not found');
-            return redirect()->back();
+            abort(404);
         }
         $options = null;
         if (!empty($attribute->options)) {
