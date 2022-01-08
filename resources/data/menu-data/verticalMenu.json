@@ -18,7 +18,7 @@
       "name": "Attributes",
       "badgeClass": "badge badge-light-primary rounded-pill ms-auto me-1",
       "icon": "box",
-      "slug": "admin.attributes.manage",
+      "slug": "admin.attributes",
       "url": "/admin/attributes/manage"
     },
     {
