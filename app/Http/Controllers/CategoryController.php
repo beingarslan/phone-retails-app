@@ -21,13 +21,14 @@ class CategoryController extends Controller
         // get categories which has no parent
         $this->categories = Category::whereNull('parent_id')->get();
         // processing the attributes
-        $attributes = Attribute::where('status', 1)->get();
+        $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
         foreach ($attributes as $key => $value) {
             if ($value->type > 'select') {
                 $options = json_decode($value->options);
                 $attributes[$key]->options = $options;
             }
         }
+        dd($attributes);
         $this->attributes = $attributes;
 
         $this->category_options = '';

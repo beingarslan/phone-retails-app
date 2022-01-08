@@ -61,6 +61,30 @@
                                             </div>
                                         </div>
 
+                                        @foreach($attributes as $attribute)
+                                        @if($attribute->type == 'select')
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="email">{{$attribute->title}}</label>
+                                                <select class="form-control" name="{{$attribute->slug}}">
+                                                    <option value="">Select</option>
+                                                    @foreach($attribute->options as $option)
+                                                    <option value="{{$option->slug}}">{{$option->title}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @else 
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="email">{{$attribute->title}}</label>
+                                                <input type="text" class="form-control" id="name" name="{{$attribute->slug}}" placeholder="{{$attribute->title}}">
+                                            </div>
+                                        </div>
+
+                                        @endif
+                                        @endforeach
+
 
                                         <div id="chilediv" style="display: none;">
                                             <!-- EAN -->
