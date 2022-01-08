@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,10 +15,21 @@ class CategoryController extends Controller
     public $user;
     public $categories;
     public $category_options;
+    public $attributes;
     public function __construct()
     {
         // get categories which has no parent
         $this->categories = Category::whereNull('parent_id')->get();
+        // processing the attributes
+        $attributes = Attribute::where('status', 1)->get();
+        foreach ($attributes as $key => $value) {
+            if ($value->type > 'select') {
+                $options = json_decode($value->options);
+                $attributes[$key]->options = $options;
+            }
+        }
+        $this->attributes = $attributes;
+
         $this->category_options = '';
         foreach ($this->categories as $category) {
             $this->category_options .= '<option value="' . $category->id . '">' . $category->title . '</option>';
@@ -27,8 +39,10 @@ class CategoryController extends Controller
     {
         $categories = $this->categories;
 
+        $attributes = $this->attributes;
         return view('admin.categories.manage', [
             'categories' => $categories,
+            'attributes' => $attributes,
         ]);
     }
 
