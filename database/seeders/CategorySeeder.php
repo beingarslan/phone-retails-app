@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Attribute;
 use App\Models\Category;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
@@ -18,6 +19,7 @@ class CategorySeeder extends Seeder
     {
         $faker = Factory::create();
 
+        $attributes = Attribute::where('status', 1)->get();
         // create category
         Category::create([
             'title' => 'Laravel',
@@ -35,6 +37,18 @@ class CategorySeeder extends Seeder
             $category->status = rand(0, 1);
             $category->parent_id = $parent ? Category::all()->random()->id : null;
             $category->save();
+            // create category attributes
+            $attributes->each(function ($attribute) use ($category, $faker) {
+                $options = $attribute->options ? json_decode($attribute->options)[rand(0, (sizeof(json_decode($attribute->options))-1))] : $faker->word;
+                $categoryAttribute = $category->categoryAttribute()->create([
+                    'attribute_id' => $attribute->id,
+                    'value' => $attribute->type == 'select' ? $options->title : $options,
+                ]);
+                $category->slug .='-'. Str::slug($categoryAttribute->value);
+            });
+            $category->save();
+
+            
         }
     }
 }
