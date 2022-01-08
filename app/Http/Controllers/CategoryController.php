@@ -266,7 +266,10 @@ class CategoryController extends Controller
 
     public function update($id){
         $category = Category::find($id);
-        $attributes = Attribute::all();
+        if(!$category){
+            abort(404);
+        }
+        $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
         $categoryAttributes = $category->categoryAttribute;
         $categoryAttributes = $categoryAttributes->groupBy('attribute_id');
         $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
