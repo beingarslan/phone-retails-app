@@ -147,6 +147,7 @@
                             <th>Title</th>
                             <th>Slug</th>
                             <th>Order</th>
+                            <th>Type</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -223,6 +224,10 @@
                 {
                     data: 'sort_order',
                     name: 'sort_order'
+                },
+                {
+                    data: 'type',
+                    name: 'type'
                 },
                 {
                     data: 'status',

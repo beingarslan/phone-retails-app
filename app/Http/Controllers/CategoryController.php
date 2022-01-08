@@ -22,14 +22,8 @@ class CategoryController extends Controller
         $this->categories = Category::whereNull('parent_id')->get();
         // processing the attributes
         $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
-        foreach ($attributes as $key => $value) {
-            if ($value->type > 'select') {
-                $options = json_decode($value->options);
-                $attributes[$key]->options = $options;
-            }
-        }
-        dd($attributes);
         $this->attributes = $attributes;
+        // dd($this->attributes);
 
         $this->category_options = '';
         foreach ($this->categories as $category) {
@@ -237,7 +231,7 @@ class CategoryController extends Controller
         }
 
         try {
-            $user =  Category::create([
+            $category =  Category::create([
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
                 'parent_id' => $request->input('parent_id'),

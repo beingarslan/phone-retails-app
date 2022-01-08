@@ -14,6 +14,7 @@ class Attribute extends Model
         'title',
         'description',
         'slug',
+        'type',
         'status',
         'sort_order'
     ];
@@ -23,5 +24,5 @@ class Attribute extends Model
         return $this->hasMany(CategoryAttribute::class, 'attribute_id', 'id');
     }
 
-    
+
 }

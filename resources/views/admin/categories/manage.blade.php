@@ -50,17 +50,6 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <div class="demo-inline-spacing">
-                                                    <div class="form-check form-switch">
-                                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
-                                                        <label class="form-check-label" for="customSwitch1">Child Category?</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         @foreach($attributes as $attribute)
                                         @if($attribute->type == 'select')
                                         <div class="col-12">
@@ -68,7 +57,7 @@
                                                 <label for="email">{{$attribute->title}}</label>
                                                 <select class="form-control" name="{{$attribute->slug}}">
                                                     <option value="">Select</option>
-                                                    @foreach($attribute->options as $option)
+                                                    @foreach(json_decode($attribute->options) as $option)
                                                     <option value="{{$option->slug}}">{{$option->title}}</option>
                                                     @endforeach
                                                 </select>
@@ -84,6 +73,17 @@
 
                                         @endif
                                         @endforeach
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="demo-inline-spacing">
+                                                    <div class="form-check form-switch">
+                                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
+                                                        <label class="form-check-label" for="customSwitch1">Child Category?</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
 
                                         <div id="chilediv" style="display: none;">
