@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="divider mb-0 mt-2">
-                                                <div class="divider-text text-warning">All Attributes are optional</div>
+                                                <div class="divider-text text-info">All Attributes are optional</div>
                                             </div>
                                         </div>
                                         @foreach($attributes as $attribute)
@@ -77,6 +77,12 @@
 
                                         @endif
                                         @endforeach
+
+                                        <div class="col-12 ">
+                                            <div class="divider mb-0 mt-2">
+                                                <div class="divider-text text-info">Parent Category is optional</div>
+                                            </div>
+                                        </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="demo-inline-spacing">
