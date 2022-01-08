@@ -27,7 +27,7 @@ class AttributeController extends Controller
     {
         try {
             return DataTables::of(Attribute::all())
-               
+
                 ->addColumn('action', function ($attribute) {
                     return '
                 <div class="btn-group">
@@ -48,7 +48,7 @@ class AttributeController extends Controller
     {
 
         return '
-            <div class="modal fade" id="editModel' . $attribute->id . '" tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
                 <div class="modal-content">
                     <div class="modal-header bg-transparent">
@@ -59,9 +59,7 @@ class AttributeController extends Controller
                             <h1 class="mb-1">Update Attribute</h1>
                             <!-- <p>Updating user details will receive a privacy audit.</p> -->
                         </div>
-                        <form id="editUserForm" class="row gy-1 pt-75" action="' . route('admin.attributes.edit') . '" method="POST">
-                        ' . csrf_field() . '
-                            <input type="hidden" name="id" value="' . $attribute->id . '">
+                        <form id="editUserForm" class="row gy-1 pt-75" action="" method="POST">
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="name">Title</label>
@@ -100,6 +98,70 @@ class AttributeController extends Controller
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="editModel' . $attribute->id . '" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                            <div class="modal-content">
+                                <div class="modal-header bg-transparent">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body pb-5 px-sm-5 pt-50">
+                                    <div class="text-center mb-2">
+                                        <h1 class="mb-1">Add Attribute</h1>
+                                        <!-- <p>Updating user details will receive a privacy audit.</p> -->
+                                    </div>
+                                    <form id="add_form" class="row gy-1 pt-75" action="' . route('admin.attributes.edit') . '" method="POST">
+                                    ' . csrf_field() . '
+                                    <input type="hidden" name="id" value="' . $attribute->id . '">
+                                    <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="name">Title</label>
+                                                <input type="text" class="form-control" id="name"value="' . $attribute->name . '" name="title" placeholder="Title">
+                                            </div>
+                                        </div>
+                                        <!-- sort_order -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="sort_order">Sort Order</label>
+                                                <input type="number" class="form-control" id="sort_order" value="' . $attribute->sort_order . '" name="sort_order" placeholder="Sort Order">
+                                            </div>
+                                        </div>
+                                        <!-- Type radio -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="type">Type</label>
+                                                <div class="demo-inline-spacing">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio1" value="text" checked />
+                                                        <label class="form-check-label" for="inlineRadio1">Text</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio2" value="select" />
+                                                        <label class="form-check-label" for="inlineRadio2">Select</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="select_class" style="display: none;">
+                                            <!-- multiple inputs -->
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="options">Options</label>
+                                                    <input type="text" class="form-control " id="options" name="options" data-role="tagsinput" placeholder="Options">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center mt-2 pt-50">
+                                            <button type="button" onclick="submit()" class="btn btn-primary me-1">Submit</button>
+                                            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
+                                                Discard
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
         ';
     }
 
@@ -183,10 +245,12 @@ class AttributeController extends Controller
     }
     public function save(Request $request)
     {
+
         // Validate user data
         $validated = Validator::make($request->all(), [
             'title' => 'required|max:100',
             // 'description' => 'required|max:255',
+            'type' => 'required',
             'sort_order' => 'required|integer',
 
         ]);
@@ -202,9 +266,24 @@ class AttributeController extends Controller
             $attribute = new Attribute();
             $attribute->title = $request->input('title');
             $attribute->slug = Str::slug($attribute->title);
+            $attribute->type = $request->input('type');
             $attribute->sort_order = $request->input('sort_order');
+            if ($request->input('type') == 'select') {
+                $options = $request->input('options');
+                $new = [];
+                $i=0;
+                foreach (explode(',', $options) as $key => $value) {
+                    $new[$key]['slug'] = Str::slug($value);
+                    $new[$key]['title'] = ($value);
+                    $new[$key]['status'] = true;
+                    $new[$key]['sort_order'] = $key;
+                    $new[$key]['description'] = $value;
+                }
+                $attribute->options = json_encode($new);
+            } else {
+                $attribute->options = null;
+            }
             $attribute->save();
-           
 
             Alert::success('Success', 'Attribute Added Successfully!');
 

@@ -115,14 +115,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <!-- <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="email">Description</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
-                                            </div>
-                                        </div> -->
-
                                         <div class="col-12 text-center mt-2 pt-50">
                                             <button type="button" onclick="submit()" class="btn btn-primary me-1">Submit</button>
                                             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
