@@ -67,6 +67,7 @@
 
                     <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.categories.edit')}}" method="POST">
                         @csrf
+                        <input type="hidden" name="id" value="{{$category->id}}">
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="name">Title</label>
@@ -99,21 +100,48 @@
                                 <select class="form-control" name="{{$attribute->slug}}">
                                     <option value="">Select</option>
                                     @foreach(json_decode($attribute->options) as $option)
-                                    <option {{array_search([$attribute->id => $option->title] ,$categoryAttributes) != '' ? 'selected' : ''}} value="{{$option->slug}}">{{$option->title}}</option>
+                                    <option {{
+                                        array_search(
+                                            [0 => [
+                                                "category_id" => $category->id,
+                                                'value' => $option->slug,
+                                                "attribute_id" => $attribute->id
+                                            ]],
+                                            $categoryAttributes
+                                        ) != '' ? 'selected' : ''
+                                    }} value="{{$option->slug}}">{{$option->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        @else
+                        @elseif($attribute->type == 'text')
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="email">{{$attribute->title}}</label>
+
+                                @if(count($attribute->categoryAttribute) > 0)
+                                @foreach($attribute->categoryAttribute as $categoryAttribute_value)
+                                @if($categoryAttribute_value->category_id == $category->id)
+                                <input type="text" class="form-control" name="{{$attribute->slug}}" value="{{$categoryAttribute_value->value}}">
+                                @endif
+                                @endforeach
                                 <input type="text" class="form-control" id="name" name="{{$attribute->slug}}" placeholder="{{$attribute->title}}">
+                                @endif
                             </div>
                         </div>
 
                         @endif
                         @endforeach
+                        <!-- status -->
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="email">Status</label>
+                                <select class="form-control" name="status">
+                                    <option {{$category->status ? 'selected' : ''}} value="1">Active
+                                    <option {{$category->status ? '' : 'selected'}} value="0">Inactive
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="col-12 ">
                             <div class="divider mb-0 mt-2">
@@ -162,10 +190,7 @@
                             </div>
                         </div>
                         <div class="col-12 text-center mt-2 pt-50">
-                            <button type="submit" class="btn btn-primary me-1">Submit</button>
-                            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
-                                Discard
-                            </button>
+                            <button type="submit" class="btn btn-primary me-1">Save Changes</button>
                         </div>
                     </form>
                 </div>

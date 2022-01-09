@@ -276,13 +276,15 @@ class AttributeSeeder extends Seeder
             ],
         );
         Attribute::insert($attributes);
-        // for ($i = 0; $i < rand(5, 10); $i++) {
-        //     $attribute = new Attribute();
-        //     $attribute->title = $faker->word();
-        //     $attribute->description = $faker->sentence();
-        //     $attribute->status = rand(0, 1);
-        //     $attribute->slug = Str::slug($attribute->title);
-        //     $attribute->save();
-        // }
+        for ($i = 0; $i < rand(4,5); $i++) {
+            $attribute = new Attribute();
+            $attribute->title = $faker->word();
+            $attribute->description = $faker->sentence();
+            $attribute->status = rand(0, 1);
+            $attribute->sort_order = rand(1, 10);
+            $attribute->type = 'text';
+            $attribute->slug = Str::slug($attribute->title);
+            $attribute->save();
+        }
     }
 }

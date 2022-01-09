@@ -56,7 +56,7 @@ class CategoryController extends Controller
                 ->addColumn('action', function ($category) {
                     return '
                 <div class="btn-group">
-                <a href="/admin/categories/update/'.$category->id.'" class="btn btn-outline-primary waves-effect" >Edit</a>
+                <a href="/admin/categories/update/' . $category->id . '" class="btn btn-outline-primary waves-effect" >Edit</a>
                 <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $category->id . '">X</button>
                 ' . $this->remove_user_form($category) . '
                 </div>
@@ -68,7 +68,7 @@ class CategoryController extends Controller
         }
     }
 
-    
+
 
 
     public function remove_user_form($category)
@@ -103,30 +103,44 @@ class CategoryController extends Controller
 
     public function edit(Request $request)
     {
-        // Validate user data
         $validated = Validator::make($request->all(), [
-            'id' => 'required|integer',
+            'id' => 'required',
             'title' => 'required|max:100',
-            'status' => 'required|integer',
             'description' => 'required|max:255',
+            'status' => 'required|in:1,0',
         ]);
 
         // print validation error message
         if ($validated->fails()) {
+
             Alert::warning('Input Error', $validated->errors()->all());
             return redirect()->back()->withErrors($validated)->withInput();
         }
 
         try {
-            $category = Category::find($request->id);
-            $userupdate =  $category->update([
-                'title' => $request->input('title'),
-                'status' => $request->input('status'),
-                'description' => $request->input('description'),
-                'parent_id' => $request->input('parent_id'),
-            ]);
+            DB::transaction(function () use ($request) {
+                $category = Category::find($request->id);
+                $category->title = $request->title;
+                $category->description = $request->description;
+                $category->status = $request->status;
+                $slug = Str::slug($category->title);
+                foreach ($this->attributes as $attribute) {
+                    if ($request->has($attribute->slug) && $request->input($attribute->slug) != '') {
+                        $category->categoryAttribute()->create([
+                            'attribute_id' => $attribute->id,
+                            'value' => $request->input($attribute->slug),
+                        ]);
+                        $slug .= '-' . Str::slug($request->input($attribute->slug));
+                    }
+                }
+                $category->slug = $slug;
+                $category->save();
 
-            Alert::success('Success', 'Category Updated Successfully!');
+                DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
+
+                Alert::success('Success', 'Category Created Successfully!');
+            });
+
 
             return redirect()->back();
         } catch (\Exception $th) {
@@ -185,7 +199,7 @@ class CategoryController extends Controller
                 }
 
                 DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
-                
+
                 Alert::success('Success', 'Category Created Successfully!');
             });
 
@@ -199,26 +213,33 @@ class CategoryController extends Controller
     }
 
 
-    public function update($id){
+    public function update($id)
+    {
         $category = Category::find($id);
-        if(!$category){
+        if (!$category) {
             abort(404);
         }
-        $category = Category::find($id)->with('categoryAttribute')->first();
-        $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
+        $category = Category::where('id', $id)->with('categoryAttribute:category_id,value,attribute_id')->first();
+        // dd($category->attribute);
+        $attributes = Attribute::where('status', 1)->with('categoryAttribute:category_id,value,attribute_id')->orderBy('sort_order', 'desc')->get();
+        // dd($attributes->categoryAttribute->toArray());
         $categoryAttributes = $category->categoryAttribute;
         $categoryAttributes = $categoryAttributes->groupBy('attribute_id');
-        $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
-            return $item->pluck('value', 'attribute_id');
-        });
+        // $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
+        //     return $item->pluck('value', 'attribute_id');
+        // });
         $categoryAttributes = $categoryAttributes->toArray();
+
+        // dd($categoryAttributes);
         // dump($categoryAttributes);
-        // dd(array_search([4 => "Sony"] ,$categoryAttributes));
+        // dd(array_search([0=>["category_id" => 12,
+        // // "value" => "Text wala",
+        // "attribute_id" => 7]] ,$categoryAttributes));
         // dd($categoryAttributes);
         // $categoryAttributes = $categoryAttributes->toArray();
         // $categoryAttributes = array_combine($attributes->pluck('id')->toArray(), $categoryAttributes);
         // dd($categoryAttributes);
-    $categories = $this->categories;
+        $categories = $this->categories;
         return view('admin.categories.update', compact('category', 'attributes', 'categoryAttributes', 'categories'));
     }
 }

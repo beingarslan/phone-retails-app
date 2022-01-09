@@ -37,7 +37,7 @@ class CategorySeeder extends Seeder
                     $options = $attribute->options ? json_decode($attribute->options)[rand(0, (sizeof(json_decode($attribute->options)) - 1))] : $faker->word;
                     $categoryAttribute = $category->categoryAttribute()->create([
                         'attribute_id' => $attribute->id,
-                        'value' => $attribute->type == 'select' ? $options->title : $options,
+                        'value' => $attribute->type == 'select' ? $options->slug : $options,
                     ]);
                     $category->slug .= '-' . Str::slug($categoryAttribute->value);
                 }
