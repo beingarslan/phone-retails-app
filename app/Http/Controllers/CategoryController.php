@@ -269,6 +269,7 @@ class CategoryController extends Controller
         if(!$category){
             abort(404);
         }
+        $category = Category::find($id)->with('categoryAttribute')->first();
         $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
         $categoryAttributes = $category->categoryAttribute;
         $categoryAttributes = $categoryAttributes->groupBy('attribute_id');
@@ -280,7 +281,7 @@ class CategoryController extends Controller
         });
         $categoryAttributes = $categoryAttributes->toArray();
         $categoryAttributes = array_combine($attributes->pluck('id')->toArray(), $categoryAttributes);
-        dd($categoryAttributes);
+        // dd($categoryAttributes);
         return view('admin.categories.update', compact('category', 'attributes', 'categoryAttributes'));
     }
 }
