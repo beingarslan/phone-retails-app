@@ -68,72 +68,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit_user_form($category)
-    {
-
-        return '
-            <div class="modal fade" id="editModel' . $category->id . '" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
-                <div class="modal-content">
-                    <div class="modal-header bg-transparent">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body pb-5 px-sm-5 pt-50">
-                        <div class="text-center mb-2">
-                            <h1 class="mb-1">Update Category</h1>
-                            <!-- <p>Updating user details will receive a privacy audit.</p> -->
-                        </div>
-                        <form id="editUserForm" class="row gy-1 pt-75" action="' . route('admin.categories.edit') . '" method="POST">
-                        ' . csrf_field() . '
-                            <input type="hidden" name="id" value="' . $category->id . '">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="name">Title</label>
-                                    <input type="text" class="form-control" id="name" name="title" placeholder="Title" value="' . $category->title . '">
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="description" placeholder="Description">' . $category->description . '</textarea>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="parent">Parent</label>
-                                    <select class="form-control select2" id="parent" name="parent_id">
-                                        <option selected value="' . ($category->parent_id ? $category->parent_id : '') . '">' . ($category->parent_id ? $category->parent->title : 'Select Parent Category') . '</option>
-                                        ' . $this->category_options . '
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="col-12">
-                                <div class="demo-inline-spacing">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="inlineRadio1" value="1" ' . ($category->status ? 'checked' : '') . '>
-                                        <label class="form-check-label" for="inlineRadio1">Active</label>
-                                    </div>
-                                    <div class="form-check form-check-warning">
-                                        <input class="form-check-input"  type="radio" name="status" id="inlineRadio2" value="0" ' . ($category->status ? '' : 'checked') . ' >
-                                        <label class="form-check-label" for="inlineRadio2">In-Active</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 text-center mt-2 pt-50">
-                                <button type="submit" class="btn btn-primary me-1">Save Changes</button>
-                                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
-                                    Discard
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        ';
-    }
+    
 
 
     public function remove_user_form($category)
@@ -282,6 +217,7 @@ class CategoryController extends Controller
         $categoryAttributes = $categoryAttributes->toArray();
         $categoryAttributes = array_combine($attributes->pluck('id')->toArray(), $categoryAttributes);
         // dd($categoryAttributes);
-        return view('admin.categories.update', compact('category', 'attributes', 'categoryAttributes'));
+    $categories = $this->categories;
+        return view('admin.categories.update', compact('category', 'attributes', 'categoryAttributes', 'categories'));
     }
 }

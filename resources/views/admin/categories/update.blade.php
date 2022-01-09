@@ -60,53 +60,102 @@
         <div class="col-md-12 col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{$attribute->title}}</h4>
+                    <h4 class="card-title">{{$category->title}}</h4>
                 </div>
                 <div class="card-body">
 
-                    <form id="edit_form" class="row gy-1 pt-75" action="{{route('admin.attributes.edit')}}" method="POST">
+
+                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.categories.edit')}}" method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="{{$attribute->id}}">
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="name">Title</label>
-                                <input type="text" class="form-control" id="name" name="title" placeholder="Title" value="{{$attribute->title}}">
+                                <input type="text" class="form-control" id="name" name="title" value="{{$category->title}}" placeholder="Title">
                             </div>
                         </div>
-                        <!-- sort_order -->
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="sort_order">Sort Order</label>
-                                <input type="number" class="form-control" id="sort_order" name="sort_order" value="{{$attribute->sort_order}}" placeholder="Sort Order">
+                                <label for="email">Description</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">{{$category->description}}</textarea>
                             </div>
                         </div>
-                        <!-- Type radio -->
+                        <div class="col-12">
+                            <div class="divider mb-0 mt-2">
+                                <div class="divider-text text-info">All Attributes are optional</div>
+                            </div>
+                        </div>
+                        @foreach($attributes as $attribute)
+                        @if($attribute->type == 'select')
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="type">Type</label>
+                                <label for="email">{{$attribute->title}}</label>
+                                <select class="form-control" name="{{$attribute->slug}}">
+                                    <option value="">Select</option>
+                                    @foreach(json_decode($attribute->options) as $option)
+                                    <option value="{{$option->slug}}">{{$option->title}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="email">{{$attribute->title}}</label>
+                                <input type="text" class="form-control" id="name" name="{{$attribute->slug}}" placeholder="{{$attribute->title}}">
+                            </div>
+                        </div>
+
+                        @endif
+                        @endforeach
+
+                        <div class="col-12 ">
+                            <div class="divider mb-0 mt-2">
+                                <div class="divider-text text-info">Parent Category is optional</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
                                 <div class="demo-inline-spacing">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio1" value="text" {{($attribute->type == 'text' ? 'checked' : '' ) }}/>
-                                        <label class="form-check-label" for="inlineRadio1">Text</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input type_class" type="radio" name="type" id="inlineRadio2" value="select" {{($attribute->type == 'select' ? 'checked' : '' ) }}/>
-                                        <label class="form-check-label" for="inlineRadio2">Select</label>
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
+                                        <label class="form-check-label" for="customSwitch1">Child Category?</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="select_class" style="display:{{$attribute->type == 'select' ? 'block' : 'none' }};">
-                            <!-- multiple inputs -->
+
+
+
+                        <div id="chilediv" style="display: none;">
+                            <!-- EAN -->
+                            <!-- <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="ean">EAN</label>
+                                                    <input type="text" class="form-control" id="ean" name="ean" placeholder="EAN">
+                                                </div>
+                                            </div> -->
+                            <!-- SKU -->
+                            <!-- <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="sku">SKU</label>
+                                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="SKU">
+                                                </div>
+                                            </div> -->
+
                             <div class="col-12">
-                                <div class="form-group">
-                                    <label for="options">Options</label>
-                                    <input type="text" class="form-control " id="options" value="{{$options}}" name="options" data-role="tagsinput" placeholder="Options">
+                                <div class="mb-1">
+                                    <label class="form-label" for="select2-basic">Parent Category</label>
+                                    <select name="parent_id" class="select2 form-select" id="select2-basic">
+                                        <option value="">Select Parent Category</option>
+                                        @foreach($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 text-center mt-2 pt-50">
-                            <button type="button" onclick="submit()" class="btn btn-primary me-1">Submit</button>
+                            <button type="submit" class="btn btn-primary me-1">Submit</button>
                             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
                                 Discard
                             </button>
