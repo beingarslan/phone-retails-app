@@ -124,6 +124,7 @@ class CategoryController extends Controller
                 $category->description = $request->description;
                 $category->status = $request->status;
                 $slug = Str::slug($category->title);
+                $category->categoryAttribute()->delete();
                 foreach ($this->attributes as $attribute) {
                     if ($request->has($attribute->slug) && $request->input($attribute->slug) != '') {
                         $category->categoryAttribute()->create([
@@ -144,9 +145,9 @@ class CategoryController extends Controller
 
             return redirect()->back();
         } catch (\Exception $th) {
-            Alert::error('Error', $th->getMessage());
-            return redirect()->back();
-            // throw $th;
+            // Alert::error('Error', $th->getMessage());
+            // return redirect()->back();
+            throw $th;
         }
     }
 

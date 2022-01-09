@@ -118,15 +118,14 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="email">{{$attribute->title}}</label>
-
-                                @if(count($attribute->categoryAttribute) > 0)
+                                @php $value = ''; @endphp 
                                 @foreach($attribute->categoryAttribute as $categoryAttribute_value)
                                 @if($categoryAttribute_value->category_id == $category->id)
-                                <input type="text" class="form-control" name="{{$attribute->slug}}" value="{{$categoryAttribute_value->value}}">
+                                @php $value = $categoryAttribute_value->value; @endphp
                                 @endif
                                 @endforeach
-                                <input type="text" class="form-control" id="name" name="{{$attribute->slug}}" placeholder="{{$attribute->title}}">
-                                @endif
+                                <input type="text" class="form-control" id="name" name="{{$attribute->slug}}" value="{{$value}}" placeholder="{{$attribute->title}}">
+
                             </div>
                         </div>
 
