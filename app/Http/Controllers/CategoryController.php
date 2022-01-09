@@ -211,11 +211,12 @@ class CategoryController extends Controller
         $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
             return $item->pluck('value', 'attribute_id');
         });
-        $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
-            return $item->toArray();
-        });
         $categoryAttributes = $categoryAttributes->toArray();
-        $categoryAttributes = array_combine($attributes->pluck('id')->toArray(), $categoryAttributes);
+        // dump($categoryAttributes);
+        // dd(array_search([4 => "Sony"] ,$categoryAttributes));
+        // dd($categoryAttributes);
+        // $categoryAttributes = $categoryAttributes->toArray();
+        // $categoryAttributes = array_combine($attributes->pluck('id')->toArray(), $categoryAttributes);
         // dd($categoryAttributes);
     $categories = $this->categories;
         return view('admin.categories.update', compact('category', 'attributes', 'categoryAttributes', 'categories'));

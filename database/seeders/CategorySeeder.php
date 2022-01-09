@@ -21,7 +21,7 @@ class CategorySeeder extends Seeder
 
         $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
         // create category
-        
+
         // get all langaues
         for ($i = 0; $i < rand(10, 15); $i++) {
             $parent = rand(0, 1);
@@ -33,16 +33,16 @@ class CategorySeeder extends Seeder
             $category->save();
             // create category attributes
             $attributes->each(function ($attribute) use ($category, $faker) {
-                $options = $attribute->options ? json_decode($attribute->options)[rand(0, (sizeof(json_decode($attribute->options))-1))] : $faker->word;
-                $categoryAttribute = $category->categoryAttribute()->create([
-                    'attribute_id' => $attribute->id,
-                    'value' => $attribute->type == 'select' ? $options->title : $options,
-                ]);
-                $category->slug .='-'. Str::slug($categoryAttribute->value);
+                if (rand(0, 1)) {
+                    $options = $attribute->options ? json_decode($attribute->options)[rand(0, (sizeof(json_decode($attribute->options)) - 1))] : $faker->word;
+                    $categoryAttribute = $category->categoryAttribute()->create([
+                        'attribute_id' => $attribute->id,
+                        'value' => $attribute->type == 'select' ? $options->title : $options,
+                    ]);
+                    $category->slug .= '-' . Str::slug($categoryAttribute->value);
+                }
             });
             $category->save();
-
-            
         }
     }
 }

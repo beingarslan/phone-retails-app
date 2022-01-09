@@ -73,10 +73,17 @@
                                 <input type="text" class="form-control" id="name" name="title" value="{{$category->title}}" placeholder="Title">
                             </div>
                         </div>
+                       
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="email">Description</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">{{$category->description}}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="name">Slug</label>
+                                <input type="text" class="form-control" readonly id="name" value="{{$category->slug}}" placeholder="Title">
                             </div>
                         </div>
                         <div class="col-12">
@@ -92,7 +99,7 @@
                                 <select class="form-control" name="{{$attribute->slug}}">
                                     <option value="">Select</option>
                                     @foreach(json_decode($attribute->options) as $option)
-                                    <option value="{{$option->slug}}">{{$option->title}}</option>
+                                    <option {{array_search([$attribute->id => $option->title] ,$categoryAttributes) != '' ? 'selected' : ''}} value="{{$option->slug}}">{{$option->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
