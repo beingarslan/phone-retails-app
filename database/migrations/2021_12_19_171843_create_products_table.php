@@ -17,8 +17,6 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->double('price')->nullable();
-            $table->double('discount')->nullable();
             $table->string('model')->nullable();
             $table->string('ean')->nullable();
             $table->string('sku')->nullable();
@@ -26,10 +24,7 @@ class CreateProductsTable extends Migration
             $table->string('image')->default('default.png');
             $table->string('meta_title')->nullable();
             $table->boolean('status')->nullable()->default(1);
-            $table->foreignId('brand_id')->nullable()->constrained('brands')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_id')->nullable()->constrained('categories')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('capacity_id')->nullable()->constrained('capacities')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('color_id')->nullable()->constrained('colors')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

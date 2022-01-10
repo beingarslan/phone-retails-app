@@ -37,45 +37,13 @@
                                     </div>
                                     <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.colors.save')}}" method="POST">
                                         @csrf
-                                        <!-- <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="name">Name</label>
-                                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-                                            </div>
-                                        </div> -->
-                                        <div class="col-md-12 mb-0">
-                                            <label class="form-label" for="select2-basic">Brand</label>
-                                            <select name="brand_id" class="brand form-select" id="select2-basic">
-                                                <option selected value="">Select Brand</option>
-                                                @foreach($brands as $brand)
-                                                <option value="{{$brand->id}}">{{$brand->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        
                                         <div class="col-md-12 mb-0">
                                             <label class="form-label" for="select2-basic">Category</label>
                                             <select name="category_id" class="category form-select" id="select2-basic">
                                                 <option selected value="">Select Category</option>
                                                 @foreach($categories as $category)
                                                 <option value="{{$category->id}}">{{$category->title}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-12 mb-0">
-                                            <label class="form-label" for="select2-basic">Capacity</label>
-                                            <select name="capacity_id" class="capacity form-select" id="select2-basic">
-                                                <option selected value="">Select Capacity</option>
-                                                @foreach($capacities as $capacity)
-                                                <option value="{{$capacity->id}}">{{$capacity->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="col-md-12 mb-0">
-                                            <label class="form-label" for="select2-basic">Color</label>
-                                            <select name="color_id" class="color form-select" id="select2-basic">
-                                                <option selected value="">Select Color</option>
-                                                @foreach($colors as $color)
-                                                <option value="{{$color->id}}">{{$color->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -168,7 +136,7 @@
             order: [
                 [0, "desc"]
             ],
-            ajax: '{!! route("admin.colors.colors") !!}',
+            ajax: '{!! route("admin.products.products") !!}',
             columns: [
 
                 {

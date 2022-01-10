@@ -158,7 +158,7 @@ Route::group(
                     function () {
                         Route::get('/manage', [ProductController::class, 'manage'])->name('manage');
                         Route::post('/save', [ProductController::class, 'save'])->name('save');
-                        Route::get('/products', [ProductController::class, 'products'])->name('categories');
+                        Route::get('/products', [ProductController::class, 'products'])->name('products');
                         // Route::get('/single/{id}', [ProductController::class, 'single'])->name('single');
                         Route::post('/edit', [ProductController::class, 'edit'])->name('edit');
                         Route::post('/remove', [ProductController::class, 'remove'])->name('remove');

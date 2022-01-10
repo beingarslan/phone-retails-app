@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Capacity;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -19,18 +20,17 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->brands = Brand::all();
         $this->categories = Category::all();
-        $this->capacities = Capacity::all();
-        $this->colors = Color::all();
     }
     public function manage(){
         
-        $brands = $this->brands;
         $categories = $this->categories;
-        $capacities = $this->capacities;
-        $colors = $this->colors;
 
-        return view('admin.products.manage', compact('brands', 'categories', 'capacities', 'colors'));
+        return view('admin.products.manage', compact('categories'));
+    }
+
+    public function products(){
+        $products = Product::all();
+        return view('admin.products.products', compact('products'));
     }
 }
