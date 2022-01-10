@@ -278,7 +278,6 @@ class ProductController extends Controller
             $product->ean = $request->input('ean');
             $product->category_id = $request->input('category_id');
             $product->slug =  Str::slug($category->slug.'-'.$request->input('title'). '-'.$request->input('model'));  
-            $product->status = $request->input('status');
             $product->description = $request->input('description');
             $product->save();
 
