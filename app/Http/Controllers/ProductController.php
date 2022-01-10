@@ -18,10 +18,15 @@ class ProductController extends Controller
     public $user;
     public $products;
     public $categories;
+    public $category_options;
     public function __construct()
     {
         $this->products = Product::all();
         $this->categories = Category::where('status', 1)->get();
+        $this->category_options = '';
+        foreach($this->categories as $category){
+            $this->category_options.='<option value="'.$category->id.'">'.$category->title.'</option>';
+        }
     }
     public function manage()
     {
@@ -34,7 +39,7 @@ class ProductController extends Controller
     public function products()
     {
         try {
-            return DataTables::of(Product::all())
+            return DataTables::of(Product::with('category')->get())
 
                 ->addColumn('action', function ($product) {
                     return '
@@ -45,6 +50,9 @@ class ProductController extends Controller
                 ' . $this->remove_user_form($product) . '
                 </div>
                 ';
+                })
+                ->addColumn('category', function ($product) {
+                    return $product->category->title;
                 })
                 ->make(true);
         } catch (\Throwable $th) {
@@ -76,7 +84,56 @@ class ProductController extends Controller
                                     <input type="text" class="form-control" id="name" name="title" placeholder="Title" value="' . $product->title . '">
                                 </div>
                             </div>
+                            <div class="col-12 mb-0">
+                                <div class="form-group">
+                                <label class="form-label">Model</label>
+                                <input type="text" class="form-control" name="model" value="' . $product->model . '" placeholder="Enter Model">
+                                </div>
+                            </div>
+                            <!-- sku -->
+                            <div class="col-12 mb-0">
+                                <div class="form-group">
+                                <label class="form-label">SKU</label>
+                                <input type="text" class="form-control" name="sku" value="' . $product->sku . '" placeholder="Enter SKU">
+                                </div>
+                            </div>
+                            <!-- ean -->
+                            <div class="col-12 mb-0">
+                                <div class="form-group">
+                                <label class="form-label">EAN</label>
+                                <input type="text" class="form-control" name="ean" value="' . $product->ean . '" placeholder="Enter EAN">
+                                </div>
+                            </div>
+                            <!-- image -->
+                            <!-- <div class="col-12 mb-0">
+                                <div class="form-group">
+                                <label class="form-label">Image</label>
+                                <input type="text" class="form-control" name="image" placeholder="Enter Image">
+                                </div>
+                            </div> -->
+
                             
+                        
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">Description</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">'.$product->description.'</textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">Meta Title</label>
+                                    <input type="text" class="form-control" id="email" name="meta_title" placeholder="Meta Title" value="' . $product->meta_title . '">
+                                </div> 
+                            </div>   
+
+                            <div class="col-md-12 mb-0">
+                                <label class="form-label" for="select2-basic">Category</label>
+                                <select name="category_id" class="category form-select" id="select2-basic">
+                                    <option selected value="'.$product->category_id.'">'.$product->category->title.'</option>
+                                    '.$this->category_options.'
+                                </select>
+                            </div>
                            
                             
                             <div class="col-12">

@@ -123,6 +123,7 @@
                             <th>ID</th>
                             <th>Title</th>
                             <th>Model</th>
+                            <th>Category</th>
                             <th>Slug</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -191,6 +192,10 @@
                 {
                     data: 'model',
                     name: 'model'
+                },
+                {
+                    data: 'category',
+                    name: 'category'
                 },
                 {
                     data: 'slug',
