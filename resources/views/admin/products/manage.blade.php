@@ -35,9 +35,53 @@
                                         <h1 class="mb-1">Add Product</h1>
                                         <!-- <p>Updating user details will receive a privacy audit.</p> -->
                                     </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.colors.save')}}" method="POST">
+                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.products.save')}}" method="POST">
                                         @csrf
+                                        <!-- title -->
+                                        <div class="col-12 mb-0">
+                                            <div class="form-group">
+                                            <label class="form-label">Title</label>
+                                            <input type="text" class="form-control" name="title" placeholder="Enter Title">
+                                            </div>
+                                        </div>
+                                        <!-- model -->
+                                        <div class="col-12 mb-0">
+                                            <div class="form-group">
+                                            <label class="form-label">Model</label>
+                                            <input type="text" class="form-control" name="model" placeholder="Enter Model">
+                                            </div>
+                                        </div>
+                                        <!-- sku -->
+                                        <div class="col-12 mb-0">
+                                            <div class="form-group">
+                                            <label class="form-label">SKU</label>
+                                            <input type="text" class="form-control" name="sku" placeholder="Enter SKU">
+                                            </div>
+                                        </div>
+                                        <!-- ean -->
+                                        <div class="col-12 mb-0">
+                                            <div class="form-group">
+                                            <label class="form-label">EAN</label>
+                                            <input type="text" class="form-control" name="ean" placeholder="Enter EAN">
+                                            </div>
+                                        </div>
+                                        <!-- image -->
+                                        <!-- <div class="col-12 mb-0">
+                                            <div class="form-group">
+                                            <label class="form-label">Image</label>
+                                            <input type="text" class="form-control" name="image" placeholder="Enter Image">
+                                            </div>
+                                        </div> -->
+
                                         
+                                       
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="email">Description</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-12 mb-0">
                                             <label class="form-label" for="select2-basic">Category</label>
                                             <select name="category_id" class="category form-select" id="select2-basic">
@@ -46,12 +90,6 @@
                                                 <option value="{{$category->id}}">{{$category->title}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="email">Description</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
-                                            </div>
                                         </div>
 
                                         <div class="col-12 text-center mt-2 pt-50">
@@ -83,7 +121,8 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Model</th>
                             <th>Slug</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -144,10 +183,14 @@
                     name: 'id'
                 },
                 {
-                    data: 'name',
+                    data: 'title',
                     render: function(data) {
                         return '<b>' + data + '</b>'
                     }
+                },
+                {
+                    data: 'model',
+                    name: 'model'
                 },
                 {
                     data: 'slug',
