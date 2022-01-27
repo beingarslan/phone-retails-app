@@ -225,7 +225,6 @@
                         });
                         return output;
                     }
-                    // name: 'attributes'
                 },
 
                 {
