@@ -348,7 +348,7 @@ class ProductController extends Controller
             $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
             $attributes_ids = array_column($product->attributes->toArray(), 'id');
             $attributes = ProductAttribute::where('product_id', $id)->whereIn('attribute_id', $attributes_ids)->with('attribute')->get();
-            // dd($attributes->toArray());
+            // dd(array_search(402 ,));
             return view('admin.products.update', compact(['product', 'attributes']));
         } else {
             return redirect()->back();

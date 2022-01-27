@@ -89,12 +89,32 @@
 
                             @foreach($attributes as $attribute)
 
+                            @if($attribute->attribute->type == 'select')
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">{{$attribute->title}}</label>
+                                    <select class="form-control" name="{{$attribute->attribute->slug}}">
+                                        <option value="">Select</option>
+                                        @foreach(json_decode($attribute->attribute->options) as $option)
+                                        <option {{
+                                        array_search(
+                                            $option->slug
+                                            ,
+                                            array_column($attributes->toArray(), 'value')
+                                        ) != '' ? 'selected' : ''
+                                    }} value="{{$option->slug}}">{{$option->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            @elseif($attribute->attribute->type == 'text')
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="name">{{$attribute->attribute->title}}</label>
                                     <input type="text" class="form-control" id="name" name="{{$attribute->attribute->slug}}" value="{{$attribute->value}}" placeholder="{{$attribute->attribute->title}}">
                                 </div>
                             </div>
+                            @endif
 
                             @endforeach
                             <!-- status -->
