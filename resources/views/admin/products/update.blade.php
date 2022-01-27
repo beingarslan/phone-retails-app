@@ -62,57 +62,57 @@
                 <div class="card-header">
                     <h4 class="card-title">{{$product->title}}</h4>
                 </div>
-                <div class="card-body">
-
-
-                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.products.edit')}}" method="POST">
+                <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.products.edit')}}" method="POST">
+                    <div class="card-body">
                         @csrf
-                        <input type="hidden" name="id" value="{{$product->id}}">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="name">Title</label>
-                                <input type="text" class="form-control" id="name" name="title" value="{{$product->title}}" placeholder="Title">
+                        <div class="row">
+                            <input type="hidden" name="id" value="{{$product->id}}">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="name">Title</label>
+                                    <input type="text" class="form-control" id="name" name="title" value="{{$product->title}}" placeholder="Title">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">Description</label>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">{{$product->description}}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="divider mb-0 mt-2">
+                                    <div class="divider-text text-info">All Attributes are optional</div>
+                                </div>
+                            </div>
+
+                            @foreach($attributes as $attribute)
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="name">{{$attribute->attribute->title}}</label>
+                                    <input type="text" class="form-control" id="name" name="{{$attribute->attribute->slug}}" value="{{$attribute->value}}" placeholder="{{$attribute->attribute->title}}">
+                                </div>
+                            </div>
+
+                            @endforeach
+                            <!-- status -->
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">Status</label>
+                                    <select class="form-control" name="status">
+                                        <option {{$product->status ? 'selected' : ''}} value="1">Active
+                                        <option {{$product->status ? '' : 'selected'}} value="0">Inactive
+                                    </select>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="email">Description</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">{{$product->description}}</textarea>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="divider mb-0 mt-2">
-                                <div class="divider-text text-info">All Attributes are optional</div>
-                            </div>
-                        </div>
-
-                        @foreach($product->attributes as $attribute)
-
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="name">{{$attribute->title}}</label>
-                                <input type="text" class="form-control" id="name" name="title" value="{{$product->title}}" placeholder="Title">
-                            </div>
-                        </div>
-
-                        @endforeach
-                        <!-- status -->
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="email">Status</label>
-                                <select class="form-control" name="status">
-                                    <option {{$product->status ? 'selected' : ''}} value="1">Active
-                                    <option {{$product->status ? '' : 'selected'}} value="0">Inactive
-                                </select>
-                            </div>
-                        </div>
-
-                </div>
-                <div class="col-12 text-center mt-2 pt-50">
-                    <button type="submit" class="btn btn-primary me-1">Save Changes</button>
-                </div>
+                    <div class="col-12 text-center mb-2 pt-50">
+                        <button type="submit" class="btn btn-primary me-1">Save Changes</button>
+                    </div>
                 </form>
             </div>
         </div>

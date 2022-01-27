@@ -7,6 +7,7 @@ use App\Models\Capacity;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -339,7 +340,10 @@ class ProductController extends Controller
         $product = Product::find($id);
         if ($product) {
             $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
-            return view('admin.products.update', compact('product'));
+            $attributes_ids = array_column($product->attributes->toArray(), 'id');
+            $attributes = ProductAttribute::where('product_id', $id)->whereIn('attribute_id', $attributes_ids)->with('attribute')->get();
+            // dd($attributes->toArray());
+            return view('admin.products.update', compact(['product', 'attributes']));
         } else {
             return redirect()->back();
         }
