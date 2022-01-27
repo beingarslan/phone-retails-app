@@ -24,9 +24,9 @@ class ProductSeeder extends Seeder
 
         $categories =  Category::where('status', 1)->with('attributes')->get();
         foreach ($categories as $category) {
-            for ($i = 0; $i < rand(1, 10); $i++) {
+            for ($i = 0; $i < rand(10, 20); $i++) {
                 $product = $category->products()->create([
-                    'title' => $faker->text(rand(5, 10)),
+                    'title' => $faker->text(rand(10, 20)),
                     'slug' => Str::slug($faker->text(rand(5, 10))),
                     'description' => $faker->paragraph(rand(3, 6)),
                     'status' => rand(0, 1),

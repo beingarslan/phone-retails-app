@@ -44,37 +44,11 @@
                                             <input type="text" class="form-control" name="title" placeholder="Enter Title">
                                             </div>
                                         </div>
-                                        <!-- model -->
-                                        <div class="col-12 mb-0">
-                                            <div class="form-group">
-                                            <label class="form-label">Model</label>
-                                            <input type="text" class="form-control" name="model" placeholder="Enter Model">
-                                            </div>
-                                        </div>
-                                        <!-- sku -->
-                                        <div class="col-12 mb-0">
-                                            <div class="form-group">
-                                            <label class="form-label">SKU</label>
-                                            <input type="text" class="form-control" name="sku" placeholder="Enter SKU">
-                                            </div>
-                                        </div>
-                                        <!-- ean -->
-                                        <div class="col-12 mb-0">
-                                            <div class="form-group">
-                                            <label class="form-label">EAN</label>
-                                            <input type="text" class="form-control" name="ean" placeholder="Enter EAN">
-                                            </div>
-                                        </div>
-                                        <!-- image -->
-                                        <!-- <div class="col-12 mb-0">
-                                            <div class="form-group">
-                                            <label class="form-label">Image</label>
-                                            <input type="text" class="form-control" name="image" placeholder="Enter Image">
-                                            </div>
-                                        </div> -->
+                                 
 
-                                        
-                                       
+
+
+
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="email">Description</label>
@@ -122,7 +96,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Title</th>
-                            <th>Model</th>
                             <th>Category</th>
                             <th>Slug</th>
                             <th>Status</th>
@@ -188,10 +161,6 @@
                     render: function(data) {
                         return '<b>' + data + '</b>'
                     }
-                },
-                {
-                    data: 'model',
-                    name: 'model'
                 },
                 {
                     data: 'category',

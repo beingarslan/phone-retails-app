@@ -24,8 +24,8 @@ class ProductController extends Controller
         $this->products = Product::all();
         $this->categories = Category::where('status', 1)->get();
         $this->category_options = '';
-        foreach($this->categories as $category){
-            $this->category_options.='<option value="'.$category->id.'">'.$category->title.'</option>';
+        foreach ($this->categories as $category) {
+            $this->category_options .= '<option value="' . $category->id . '">' . $category->title . '</option>';
         }
     }
     public function manage()
@@ -36,28 +36,75 @@ class ProductController extends Controller
         ]);
     }
 
-    public function products()
+    public function products(Request $request)
     {
-        try {
-            return DataTables::of(Product::with('category')->get())
+        $totalData = Product::count();
 
-                ->addColumn('action', function ($product) {
-                    return '
-                <div class="btn-group">
-                <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal" data-bs-target="#editModel' . $product->id . '">Edit</button>
-                <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $product->id . '">X</button>
-                ' . $this->edit_user_form($product) . '
-                ' . $this->remove_user_form($product) . '
-                </div>
-                ';
-                })
-                ->addColumn('category', function ($product) {
-                    return $product->category->title;
-                })
-                ->make(true);
-        } catch (\Throwable $th) {
-            throw $th;
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = 'products.id';
+        $dir = $request->input('order.0.dir');
+
+        if (empty($request->input('search.value'))) {
+            $products = Product::offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->with(['category'])
+                ->get();
+        } else {
+            $search = $request->input('search.value');
+
+            $products =  Product::where('products.id', 'LIKE', "%{$search}%")
+                ->orWhere('products.title', 'LIKE', "%{$search}%")
+                ->orWhere('products.slug', 'LIKE', "%{$search}%")
+                ->orWhere('products.status', 'LIKE', "%{$search}%")
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->with(['category'])
+                ->get();
+            // dd($products);x
+
+            $totalFiltered = Product::where('products.id', 'LIKE', "%{$search}%")
+                ->orWhere('products.title', 'LIKE', "%{$search}%")
+                ->orWhere('products.slug', 'LIKE', "%{$search}%")
+                ->orWhere('products.status', 'LIKE', "%{$search}%")
+                ->count();
         }
+
+        $data = array();
+        if (!empty($products)) {
+            foreach ($products as $product) {
+                $show =  ('edituser/' . $product->id);
+                $edit =  ('edituser/' . $product->id);
+
+                $nestedData['id'] = $product->id;
+                $nestedData['title'] = $product->title;
+                $nestedData['category'] = $product->category->title;
+                $nestedData['status'] = $product->status;
+                $nestedData['slug'] = $product->slug;
+                $nestedData['action'] = '
+                            <div class="btn-group">
+                            <a href="/admin/products/update/'.$product->id.'" class="btn btn-outline-primary waves-effect">Edit</a>
+                            <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $product->id . '">X</button>
+                            ' . $this->edit_user_form($product) . '
+                            ' . $this->remove_user_form($product) . '
+                            </div>
+                            ';
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+
+        echo json_encode($json_data);
     }
 
     public function edit_user_form($product)
@@ -112,30 +159,30 @@ class ProductController extends Controller
                                 </div>
                             </div> -->
 
-                            
-                        
+
+
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="email">Description</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">'.$product->description.'</textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">' . $product->description . '</textarea>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="email">Meta Title</label>
                                     <input type="text" class="form-control" id="email" name="meta_title" placeholder="Meta Title" value="' . $product->meta_title . '">
-                                </div> 
-                            </div>   
+                                </div>
+                            </div>
 
                             <div class="col-md-12 mb-0">
                                 <label class="form-label" for="select2-basic">Category</label>
                                 <select name="category_id" class="category form-select" id="select2-basic">
-                                    <option selected value="'.$product->category_id.'">'.$product->category->title.'</option>
-                                    '.$this->category_options.'
+                                    <option selected value="' . $product->category_id . '">' . $product->category->title . '</option>
+                                    ' . $this->category_options . '
                                 </select>
                             </div>
-                           
-                            
+
+
                             <div class="col-12">
                                 <div class="demo-inline-spacing">
                                     <div class="form-check form-check-inline">
@@ -179,7 +226,7 @@ class ProductController extends Controller
                                 </div>
                                 <div class="modal-body">
                                 <h1 class="text-danger">Are you sure?</h1>
-                                      
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -189,7 +236,7 @@ class ProductController extends Controller
                         </div>
                     </div>
                 </form>
-        
+
         ';
     }
 
@@ -223,7 +270,7 @@ class ProductController extends Controller
                 'sku' => $request->input('sku'),
                 'ean' => $request->input('ean'),
                 'category_id' => $request->input('category_id'),
-                'slug' =>  Str::slug($category->slug.'-'.$request->input('title'). '-'.$request->input('model')),
+                'slug' =>  Str::slug($category->slug . '-' . $request->input('title') . '-' . $request->input('model')),
                 'status' => $request->input('status'),
                 'description' => $request->input('description'),
             ]);
@@ -255,9 +302,6 @@ class ProductController extends Controller
         // Validate user data
         $validated = Validator::make($request->all(), [
             'title' => 'required|max:100',
-            'model' => 'required|max:100',
-            'sku' => 'required|max:100',
-            'ean' => 'required|max:100',
             'category_id' => 'required|max:100',
             'description' => 'sometimes|max:255',
         ]);
@@ -273,14 +317,12 @@ class ProductController extends Controller
             $product = new Product();
             $category = Category::find($request->category_id)->first();
             $product->title = $request->input('title');
-            $product->model = $request->input('model');
-            $product->sku = $request->input('sku');
-            $product->ean = $request->input('ean');
             $product->category_id = $request->input('category_id');
-            $product->slug =  Str::slug($category->slug.'-'.$request->input('title'). '-'.$request->input('model'));  
+            $product->slug =  Str::slug($request->input('title'));
             $product->description = $request->input('description');
             $product->save();
 
+            $product->attributes()->sync($category->attributes->pluck('id')->toArray());
 
             Alert::success('Success', 'Product Added Successfully!');
 
@@ -289,6 +331,17 @@ class ProductController extends Controller
             Alert::error('Error', $th->getMessage());
             return redirect()->back();
             // throw $th;
+        }
+    }
+
+    public function update($id)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
+            return view('admin.products.update', compact('product'));
+        } else {
+            return redirect()->back();
         }
     }
 }
