@@ -53,13 +53,6 @@ class CategoryController extends Controller
                 ->addColumn('description', function ($category) {
                     return substr($category->description, 0, rand(30, 40));
                 })
-                // ->addColumn('attributes', function ($category) {
-                //     // $data = "";
-                //     // foreach ($category->attributes as $attribute) {
-                //     //     $data .= '<span class="badge badge-primary">' . $attribute->title . '</span>';
-                //     // }
-                //     return $category->attributes;
-                // })
                 ->addColumn('action', function ($category) {
                     return '
                 <div class="btn-group">
@@ -115,11 +108,11 @@ class CategoryController extends Controller
             'title' => 'required|max:100',
             'description' => 'required|max:255',
             'status' => 'required|in:1,0',
+
         ]);
 
         // print validation error message
         if ($validated->fails()) {
-
             Alert::warning('Input Error', $validated->errors()->all());
             return redirect()->back()->withErrors($validated)->withInput();
         }
@@ -130,31 +123,21 @@ class CategoryController extends Controller
                 $category->title = $request->title;
                 $category->description = $request->description;
                 $category->status = $request->status;
-                $slug = Str::slug($category->title);
                 $category->categoryAttribute()->delete();
-                foreach ($this->attributes as $attribute) {
-                    if ($request->has($attribute->slug) && $request->input($attribute->slug) != '') {
-                        $category->categoryAttribute()->create([
-                            'attribute_id' => $attribute->id,
-                            'value' => $request->input($attribute->slug),
-                        ]);
-                        $slug .= '-' . Str::slug($request->input($attribute->slug));
-                    }
+                foreach ($request->input('attributes') as $attribute) {
+                    $category->categoryAttribute()->create([
+                        'attribute_id' => $attribute,
+                    ]);
                 }
-                $category->slug = $slug;
                 $category->save();
-
-                DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
-
                 Alert::success('Success', 'Category Created Successfully!');
             });
 
-
             return redirect()->back();
         } catch (\Exception $th) {
-            // Alert::error('Error', $th->getMessage());
-            // return redirect()->back();
-            throw $th;
+            Alert::error('Error', $th->getMessage());
+            return redirect()->back();
+            // throw $th;
         }
     }
 
@@ -195,7 +178,7 @@ class CategoryController extends Controller
                     'description' => $request->input('description'),
                     'parent_id' => $request->input('parent_id'),
                 ]);
-                foreach($request->input('attributes') as $attribute) {
+                foreach ($request->input('attributes') as $attribute) {
                     $category->categoryAttribute()->create([
                         'attribute_id' => $attribute,
                     ]);
@@ -222,27 +205,8 @@ class CategoryController extends Controller
         if (!$category) {
             abort(404);
         }
-        $category = Category::where('id', $id)->with('categoryAttribute:category_id,value,attribute_id')->first();
-        // dd($category->attribute);
-        $attributes = Attribute::where('status', 1)->with('categoryAttribute:category_id,value,attribute_id')->orderBy('sort_order', 'desc')->get();
-        // dd($attributes->categoryAttribute->toArray());
-        $categoryAttributes = $category->categoryAttribute;
-        $categoryAttributes = $categoryAttributes->groupBy('attribute_id');
-        // $categoryAttributes = $categoryAttributes->map(function ($item, $key) {
-        //     return $item->pluck('value', 'attribute_id');
-        // });
-        $categoryAttributes = $categoryAttributes->toArray();
-
-        // dd($categoryAttributes);
-        // dump($categoryAttributes);
-        // dd(array_search([0=>["category_id" => 12,
-        // // "value" => "Text wala",
-        // "attribute_id" => 7]] ,$categoryAttributes));
-        // dd($categoryAttributes);
-        // $categoryAttributes = $categoryAttributes->toArray();
-        // $categoryAttributes = array_combine($attributes->pluck('id')->toArray(), $categoryAttributes);
-        // dd($categoryAttributes);
-        $categories = $this->categories;
-        return view('admin.categories.update', compact('category', 'attributes', 'categoryAttributes', 'categories'));
+        $category = Category::where('id', $id)->with('categoryAttribute')->first();
+        $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
+        return view('admin.categories.update', compact('category', 'attributes'));
     }
 }

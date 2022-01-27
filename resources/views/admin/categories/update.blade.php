@@ -74,63 +74,30 @@
                                 <input type="text" class="form-control" id="name" name="title" value="{{$category->title}}" placeholder="Title">
                             </div>
                         </div>
-                       
+
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="email">Description</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">{{$category->description}}</textarea>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="name">Slug</label>
-                                <input type="text" class="form-control" readonly id="name" value="{{$category->slug}}" placeholder="Title">
-                            </div>
-                        </div>
+
                         <div class="col-12">
                             <div class="divider mb-0 mt-2">
                                 <div class="divider-text text-info">All Attributes are optional</div>
                             </div>
                         </div>
-                        @foreach($attributes as $attribute)
-                        @if($attribute->type == 'select')
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="email">{{$attribute->title}}</label>
-                                <select class="form-control" name="{{$attribute->slug}}">
-                                    <option value="">Select</option>
-                                    @foreach(json_decode($attribute->options) as $option)
-                                    <option {{
-                                        array_search(
-                                            [0 => [
-                                                "category_id" => $category->id,
-                                                'value' => $option->slug,
-                                                "attribute_id" => $attribute->id
-                                            ]],
-                                            $categoryAttributes
-                                        ) != '' ? 'selected' : ''
-                                    }} value="{{$option->slug}}">{{$option->title}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        @elseif($attribute->type == 'text')
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="email">{{$attribute->title}}</label>
-                                @php $value = ''; @endphp 
-                                @foreach($attribute->categoryAttribute as $categoryAttribute_value)
-                                @if($categoryAttribute_value->category_id == $category->id)
-                                @php $value = $categoryAttribute_value->value; @endphp
-                                @endif
-                                @endforeach
-                                <input type="text" class="form-control" id="name" name="{{$attribute->slug}}" value="{{$value}}" placeholder="{{$attribute->title}}">
+                        <div class="demo-inline-spacing">
 
-                            </div>
-                        </div>
+                            @foreach($attributes as $attribute)
 
-                        @endif
-                        @endforeach
+                            <div class="form-check form-check-primary">
+                                <input type="checkbox" name="attributes[]" value="{{$attribute->id}}" {{in_array($attribute->id, array_column($category->categoryAttribute->toArray(), 'attribute_id')) ? 'checked' : ''}} class="form-check-input" id="colorCheck1{{$attribute->id}}" />
+                                <label class="form-check-label" for="colorCheck1{{$attribute->id}}">{{$attribute->title}}</label>
+                            </div>
+
+                            @endforeach
+                        </div>
                         <!-- status -->
                         <div class="col-12">
                             <div class="form-group">
@@ -142,59 +109,14 @@
                             </div>
                         </div>
 
-                        <div class="col-12 ">
-                            <div class="divider mb-0 mt-2">
-                                <div class="divider-text text-info">Parent Category is optional</div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <div class="demo-inline-spacing">
-                                    <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="customSwitch1">
-                                        <label class="form-check-label" for="customSwitch1">Child Category?</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div id="chilediv" style="display: none;">
-                            <!-- EAN -->
-                            <!-- <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="ean">EAN</label>
-                                                    <input type="text" class="form-control" id="ean" name="ean" placeholder="EAN">
-                                                </div>
-                                            </div> -->
-                            <!-- SKU -->
-                            <!-- <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="sku">SKU</label>
-                                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="SKU">
-                                                </div>
-                                            </div> -->
-
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <label class="form-label" for="select2-basic">Parent Category</label>
-                                    <select name="parent_id" class="select2 form-select" id="select2-basic">
-                                        <option value="">Select Parent Category</option>
-                                        @foreach($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 text-center mt-2 pt-50">
-                            <button type="submit" class="btn btn-primary me-1">Save Changes</button>
-                        </div>
-                    </form>
                 </div>
+                <div class="col-12 text-center mt-2 pt-50">
+                    <button type="submit" class="btn btn-primary me-1">Save Changes</button>
+                </div>
+                </form>
             </div>
         </div>
+    </div>
     </div>
 </section>
 <!-- Basic Vertical form layout section end -->

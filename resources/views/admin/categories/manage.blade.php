@@ -84,24 +84,7 @@
                                             </div>
                                         </div>
 
-
-
                                         <div id="chilediv" style="display: none;">
-                                            <!-- EAN -->
-                                            <!-- <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="ean">EAN</label>
-                                                    <input type="text" class="form-control" id="ean" name="ean" placeholder="EAN">
-                                                </div>
-                                            </div> -->
-                                            <!-- SKU -->
-                                            <!-- <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="sku">SKU</label>
-                                                    <input type="text" class="form-control" id="sku" name="sku" placeholder="SKU">
-                                                </div>
-                                            </div> -->
-
                                             <div class="col-12">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="select2-basic">Parent Category</label>
@@ -226,7 +209,6 @@
                         return output;
                     }
                 },
-
                 {
                     data: 'status',
                     render: function(data) {
