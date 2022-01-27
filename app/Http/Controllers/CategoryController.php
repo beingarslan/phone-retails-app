@@ -46,13 +46,20 @@ class CategoryController extends Controller
     public function categories()
     {
         try {
-            return DataTables::of(Category::all())
+            return DataTables::of(Category::with('attributes')->get())
                 ->addColumn('parent', function ($category) {
                     return $category->parent_id ? $category->parent->title : 'N/A';
                 })
                 ->addColumn('description', function ($category) {
                     return substr($category->description, 0, rand(30, 40));
                 })
+                // ->addColumn('attributes', function ($category) {
+                //     // $data = "";
+                //     // foreach ($category->attributes as $attribute) {
+                //     //     $data .= '<span class="badge badge-primary">' . $attribute->title . '</span>';
+                //     // }
+                //     return $category->attributes;
+                // })
                 ->addColumn('action', function ($category) {
                     return '
                 <div class="btn-group">
@@ -86,7 +93,7 @@ class CategoryController extends Controller
                                 </div>
                                 <div class="modal-body">
                                 <h1 class="text-danger">Are you sure?</h1>
-                                      
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -96,7 +103,7 @@ class CategoryController extends Controller
                         </div>
                     </div>
                 </form>
-        
+
         ';
     }
 
@@ -188,18 +195,13 @@ class CategoryController extends Controller
                     'description' => $request->input('description'),
                     'parent_id' => $request->input('parent_id'),
                 ]);
-                $slug = Str::slug($category->title);
-                foreach ($this->attributes as $attribute) {
-                    if ($request->has($attribute->slug) && $request->input($attribute->slug) != '') {
-                        $category->categoryAttribute()->create([
-                            'attribute_id' => $attribute->id,
-                            'value' => $request->input($attribute->slug),
-                        ]);
-                        $slug .= '-' . Str::slug($request->input($attribute->slug));
-                    }
+                foreach($request->input('attributes') as $attribute) {
+                    $category->categoryAttribute()->create([
+                        'attribute_id' => $attribute,
+                    ]);
                 }
 
-                DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
+                // DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
 
                 Alert::success('Success', 'Category Created Successfully!');
             });

@@ -59,7 +59,7 @@
                                             @foreach($attributes as $attribute)
 
                                             <div class="form-check form-check-primary">
-                                                <input type="checkbox" name="attribute[]" class="form-check-input" id="colorCheck1{{$attribute->id}}" />
+                                                <input type="checkbox" name="attributes[]" value="{{$attribute->id}}" class="form-check-input" id="colorCheck1{{$attribute->id}}" />
                                                 <label class="form-check-label" for="colorCheck1{{$attribute->id}}">{{$attribute->title}}</label>
                                             </div>
 
@@ -145,7 +145,7 @@
                             <th>ID</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Slug</th>
+                            <th>Attributes</th>
                             <th>Status</th>
                             <th>Parent</th>
                             <th>Action</th>
@@ -216,8 +216,16 @@
                     name: 'description'
                 },
                 {
-                    data: 'slug',
-                    name: 'slug'
+                    data: 'attributes',
+                    render: function(data) {
+                        var output = "";
+                        // foreach function
+                        $.each(data, function(key, value) {
+                            output += '<span class="badge badge-glow bg-primary me-1">' + value.title + '</span>';
+                        });
+                        return output;
+                    }
+                    // name: 'attributes'
                 },
 
                 {

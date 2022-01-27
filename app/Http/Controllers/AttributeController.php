@@ -79,7 +79,7 @@ class AttributeController extends Controller
                                 </div>
                                 <div class="modal-body">
                                 <h1 class="text-danger">Are you sure?</h1>
-                                      
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -89,7 +89,7 @@ class AttributeController extends Controller
                         </div>
                     </div>
                 </form>
-        
+
         ';
     }
 
@@ -139,7 +139,7 @@ class AttributeController extends Controller
                     $new[$key]['sort_order'] = $key;
                     $new[$key]['description'] = $value;
                 }
-                
+
                 $attribute->options = json_encode($new);
             } else {
                 $attribute->options = null;

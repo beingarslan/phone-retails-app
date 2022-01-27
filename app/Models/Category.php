@@ -38,6 +38,11 @@ class Category extends Model
     {
         return $this->hasMany(CategoryAttribute::class, 'category_id', 'id');
     }
+    // attributes
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, CategoryAttribute::class, 'category_id', 'attribute_id');
+    }
 
     public function attribute()
     {
