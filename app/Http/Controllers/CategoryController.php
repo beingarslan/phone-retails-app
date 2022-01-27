@@ -184,8 +184,6 @@ class CategoryController extends Controller
                     ]);
                 }
 
-                // DB::table('categories')->where('id', $category->id)->update(['slug' => $slug]);
-
                 Alert::success('Success', 'Category Created Successfully!');
             });
 
