@@ -11,7 +11,6 @@ class CategoryAttribute extends Model
 
     protected $fillable = [
         'id',
-        'value',
         'category_id',
         'attribute_id',
         'created_at',
@@ -28,5 +27,5 @@ class CategoryAttribute extends Model
         return $this->belongsTo(Attribute::class, 'attribute_id', 'id');
     }
 
-    
+
 }
