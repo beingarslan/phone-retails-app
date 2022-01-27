@@ -9,6 +9,7 @@ use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -88,7 +89,7 @@ class ProductController extends Controller
                 $nestedData['slug'] = $product->slug;
                 $nestedData['action'] = '
                             <div class="btn-group">
-                            <a href="/admin/products/update/'.$product->id.'" class="btn btn-outline-primary waves-effect">Edit</a>
+                            <a href="/admin/products/update/' . $product->id . '" class="btn btn-outline-primary waves-effect">Edit</a>
                             <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $product->id . '">X</button>
                             ' . $this->edit_user_form($product) . '
                             ' . $this->remove_user_form($product) . '
@@ -248,10 +249,6 @@ class ProductController extends Controller
         $validated = Validator::make($request->all(), [
             'id' => 'required|integer',
             'title' => 'required|max:100',
-            'model' => 'required|max:100',
-            'sku' => 'required|max:100',
-            'ean' => 'required|max:100',
-            'category_id' => 'required|max:100',
             'status' => 'required|integer',
             'description' => 'sometimes|max:255',
         ]);
@@ -263,23 +260,32 @@ class ProductController extends Controller
         }
 
         try {
-            $product = Product::find($request->id);
-            $category = Category::find($request->category_id)->first();
-            $userupdate =  $product->update([
-                'title' => $request->input('title'),
-                'model' => $request->input('model'),
-                'sku' => $request->input('sku'),
-                'ean' => $request->input('ean'),
-                'category_id' => $request->input('category_id'),
-                'slug' =>  Str::slug($category->slug . '-' . $request->input('title') . '-' . $request->input('model')),
-                'status' => $request->input('status'),
-                'description' => $request->input('description'),
-            ]);
+            DB::transaction(function () use ($request) {
+                $product = Product::find($request->id);
+                // $category = Category::find($request->category_id)->first();
+                $userupdate =  $product->update([
+                    'title' => $request->input('title'),
+                    'status' => $request->input('status'),
+                    'description' => $request->input('description'),
+                ]);
 
+                $attributes_ids = array_column($product->attributes->toArray(), 'id');
+                $attributes = ProductAttribute::where('product_id', $product->id)->whereIn('attribute_id', $attributes_ids)->with('attribute')->get();
+
+                foreach ($attributes as $attribute) {
+                    $attribute->update([
+                        'value' => $request->input($attribute->attribute->slug),
+                    ]);
+                }
+            });
             Alert::success('Success', 'Product Updated Successfully!');
-
             return redirect()->back();
         } catch (\Exception $th) {
+            Alert::error('Error', $th->getMessage());
+            return redirect()->back();
+            // throw $th;
+        }
+        catch (\Throwable $th) {
             Alert::error('Error', $th->getMessage());
             return redirect()->back();
             // throw $th;
