@@ -67,21 +67,21 @@
                         @csrf
                         <div class="row">
                             <input type="hidden" name="id" value="{{$product->id}}">
-                            <div class="col-12">
+                            <div class="col-12 mb-1">
                                 <div class="form-group">
                                     <label for="name">Title</label>
                                     <input type="text" class="form-control" id="name" name="title" value="{{$product->title}}" placeholder="Title">
                                 </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-12 mb-1">
                                 <div class="form-group">
                                     <label for="email">Description</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">{{$product->description}}</textarea>
                                 </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-12 mb-1">
                                 <div class="divider mb-0 mt-2">
                                     <div class="divider-text text-info">All Attributes are optional</div>
                                 </div>
@@ -90,9 +90,9 @@
                             @foreach($attributes as $attribute)
 
                             @if($attribute->attribute->type == 'select')
-                            <div class="col-12">
+                            <div class="col-12 mb-1">
                                 <div class="form-group">
-                                    <label for="email">{{$attribute->title}}</label>
+                                    <label for="email">{{$attribute->attribute->title}}</label>
                                     <select class="form-control" name="{{$attribute->attribute->slug}}">
                                         <option value="">Select</option>
                                         @foreach(json_decode($attribute->attribute->options) as $option)
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             @elseif($attribute->attribute->type == 'text')
-                            <div class="col-12">
+                            <div class="col-12 mb-1">
                                 <div class="form-group">
                                     <label for="name">{{$attribute->attribute->title}}</label>
                                     <input type="text" class="form-control" id="name" name="{{$attribute->attribute->slug}}" value="{{$attribute->value}}" placeholder="{{$attribute->attribute->title}}">
@@ -118,7 +118,7 @@
 
                             @endforeach
                             <!-- status -->
-                            <div class="col-12">
+                            <div class="col-12 mb-1">
                                 <div class="form-group">
                                     <label for="email">Status</label>
                                     <select class="form-control" name="status">
