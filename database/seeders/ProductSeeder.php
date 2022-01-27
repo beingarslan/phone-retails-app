@@ -22,21 +22,19 @@ class ProductSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        $categories =  Category::where('status', 1)->get();
+        $categories =  Category::where('status', 1)->with('attributes')->get();
         foreach ($categories as $category) {
             for ($i = 0; $i < rand(1, 10); $i++) {
-                $product = new Product();
-                $product->model = $faker->word;
-                $product->title = $faker->firstName();
-                $product->slug = Str::slug($category->slug . '-' . $product->title);
-                $product->description = $faker->paragraph(rand(3, 6));
-                $product->status = rand(0, 1);
-                $product->sku = $faker->ean8;
-                $product->ean = $faker->ean13;
-                $product->image = $faker->imageUrl(400, 400, 'technics');
-                $product->meta_title = $faker->sentence(rand(3, 6));
-                $product->category_id = $category->id;
-                $product->save();
+                $product = $category->products()->create([
+                    'title' => $faker->text(rand(5, 10)),
+                    'slug' => Str::slug($faker->text(rand(5, 10))),
+                    'description' => $faker->paragraph(rand(3, 6)),
+                    'status' => rand(0, 1),
+                    'image' => $faker->imageUrl(400, 400, 'technics'),
+                    'meta_title' => $faker->sentence(rand(3, 6))
+                ]);
+
+                $product->attributes()->sync($category->attributes->pluck('id')->toArray());
             }
         }
     }

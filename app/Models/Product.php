@@ -15,18 +15,24 @@ class Product extends Model
         'description',
         'slug',
         'status',
-        'sku',
-        'model',
-        'ean',
         'image',
         'meta_title',
         'category_id',
-
     ];
 
 
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function productAttributes()
+    {
+        return $this->hasMany(ProductAttribute::class, 'product_id', 'id');
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, ProductAttribute::class, 'product_id', 'attribute_id');
     }
 }
