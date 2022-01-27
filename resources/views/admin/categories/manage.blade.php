@@ -54,29 +54,19 @@
                                                 <div class="divider-text text-info">All Attributes are optional</div>
                                             </div>
                                         </div>
-                                        @foreach($attributes as $attribute)
-                                        @if($attribute->type == 'select')
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="email">{{$attribute->title}}</label>
-                                                <select class="form-control" name="{{$attribute->slug}}">
-                                                    <option value="">Select</option>
-                                                    @foreach(json_decode($attribute->options) as $option)
-                                                    <option value="{{$option->slug}}">{{$option->title}}</option>
-                                                    @endforeach
-                                                </select>
+                                        <div class="demo-inline-spacing">
+
+                                            @foreach($attributes as $attribute)
+
+                                            <div class="form-check form-check-primary">
+                                                <input type="checkbox" name="attribute[]" class="form-check-input" id="colorCheck1{{$attribute->id}}" />
+                                                <label class="form-check-label" for="colorCheck1{{$attribute->id}}">{{$attribute->title}}</label>
                                             </div>
-                                        </div>
-                                        @else
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="email">{{$attribute->title}}</label>
-                                                <input type="text" class="form-control" id="name" name="{{$attribute->slug}}" placeholder="{{$attribute->title}}">
-                                            </div>
+
+
+                                            @endforeach
                                         </div>
 
-                                        @endif
-                                        @endforeach
 
                                         <div class="col-12 ">
                                             <div class="divider mb-0 mt-2">
