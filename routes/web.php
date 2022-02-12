@@ -42,7 +42,7 @@ Route::get('/', function () {
         return redirect('/login');
     } else {
         $user = Auth::user();
-        if ( $user->hasRole('Admin')) {
+        if ($user->hasRole('Admin')) {
             return redirect('/dashboard');
         } elseif ($user->hasRole('Appointment Manager')) {
             return redirect('/dashboard');
@@ -177,6 +177,16 @@ Route::group(
                         // Route::get('/single/{id}', [SupplierController::class, 'single'])->name('single');
                         Route::post('/edit', [SupplierController::class, 'edit'])->name('edit');
                         Route::post('/remove', [SupplierController::class, 'remove'])->name('remove');
+                    }
+                );
+                Route::group(
+                    [
+                        'prefix' => 'settings',
+                        'as' => 'settings.'
+                    ],
+                    function () {
+                        Route::get('/edit-password/{id}', [UserController::class, 'editPassword'])->name('edit-password');
+                        Route::post('/update', [UserController::class, 'updatePassword'])->name('update-password');
                     }
                 );
             }

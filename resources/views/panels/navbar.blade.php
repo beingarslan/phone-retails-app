@@ -75,7 +75,7 @@
               <i class="me-50" data-feather="user"></i> Profile
             </a>
 
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="/admin/settings/edit-password/{{Auth::user()->id}}">
               <i class="me-50" data-feather="settings"></i> Settings
             </a>
 

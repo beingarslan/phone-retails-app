@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\Datatables\Datatables as Datatables;
 use Spatie\Permission\Models\Role as Role;
 use RealRashid\SweetAlert\Facades\Alert as Alert;
+use App\Rules\MatchOldPassword;
 
 class UserController extends Controller
 {
@@ -259,5 +260,27 @@ class UserController extends Controller
             return redirect()->back();
             // throw $th;
         }
+    }
+    public function editPassword($id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            abort(404);
+        }
+        return view('admin.users.edit-password', compact('user'));
+    }
+    public function updatePassword(Request $request)
+    {
+
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+            'name' => ['required']
+        ]);
+
+        User::find(auth()->user()->id)->update(['password' => Hash::make($request->new_password), 'name' => $request->name]);
+        Alert::success('Success', 'User Password Updated Successfully!');
+        return redirect('/dashboard');
     }
 }
