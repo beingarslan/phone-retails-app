@@ -322,14 +322,14 @@ class ProductController extends Controller
 
         try {
             $product = new Product();
-            $category = Category::find($request->category_id)->first();
+            $category = Category::where('id', $request->category_id)->with('attributes:id')->first();
             $product->title = $request->input('title');
             $product->category_id = $request->input('category_id');
             $product->slug =  Str::slug($request->input('title'));
             $product->description = $request->input('description');
             $product->save();
 
-            $product->attributes()->sync($category->attributes->pluck('id')->toArray());
+            $product->attributes()->sync($category->attributes);
 
             Alert::success('Success', 'Product Added Successfully!');
 
@@ -347,7 +347,7 @@ class ProductController extends Controller
         if ($product) {
             $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
             $attributes_ids = array_column($product->attributes->toArray(), 'id');
-            $attributes = ProductAttribute::where('product_id', $id)->whereIn('attribute_id', $attributes_ids)->with('attribute')->get();
+            $attributes = ProductAttribute::where('product_id', $id)->with('attribute')->get();
             // dd(array_search(402 ,));
             return view('admin.products.update', compact(['product', 'attributes']));
         } else {
