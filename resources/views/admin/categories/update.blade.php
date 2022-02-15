@@ -112,7 +112,10 @@
                         {{-- categories --}}
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="Categories">Category</label>
+                                <label for="Categories">
+                                    Parent Category
+                                    <small>There will be no parent if current category is a parent</small>
+                                </label>
                                 <select class="form-control" name="category">
                                     <option >Select Category</option>
                                     @if($category->parent_id)

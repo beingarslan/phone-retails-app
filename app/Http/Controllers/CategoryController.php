@@ -125,7 +125,7 @@ class CategoryController extends Controller
                 $category->status = $request->status;
                 $categoryChild = $category->child()->count();
                 dd($request->category,"category child".$categoryChild);
-              
+
                // dd($category);
                 $category->categoryAttribute()->delete();
                 foreach ($request->input('attributes') as $attribute) {
@@ -207,9 +207,9 @@ class CategoryController extends Controller
         if (!$category) {
             abort(404);
         }
-        $category = Category::where('id', $id)->with('categoryAttribute')->first();
+        $category = Category::where('id', $id)->with('categoryAttribute', 'child')->first();
        // dd($category);
-        $categories = Category::all();
+        $categories =  empty($category->child) ? $this->categories : [];
         $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
         return view('admin.categories.update', compact('category', 'attributes', 'categories'));
     }
