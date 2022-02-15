@@ -99,7 +99,7 @@
                             @endforeach
                         </div>
                         <!-- status -->
-                        <div class="col-12">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="email">Status</label>
                                 <select class="form-control" name="status">
@@ -108,8 +108,22 @@
                                 </select>
                             </div>
                         </div>
-
-                </div>
+                        <!-- status -->
+                        {{-- categories --}}
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="Categories">Category</label>
+                                <select class="form-control" name="category">
+                                    <option >Select Category</option>
+                                    @if($category->parent_id)
+                                    <option value="{{$category->parent_id}}" selected>{{$category->parent->title}}</option>
+                                    @endif
+                                    @foreach($categories as $category)
+                                    <option  value="{{$category->id}}">{{$category->title}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                 <div class="col-12 text-center mt-2 pt-50">
                     <button type="submit" class="btn btn-primary me-1">Save Changes</button>
                 </div>

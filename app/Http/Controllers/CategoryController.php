@@ -123,6 +123,10 @@ class CategoryController extends Controller
                 $category->title = $request->title;
                 $category->description = $request->description;
                 $category->status = $request->status;
+                $categoryChild = $category->child()->count();
+                dd($request->category,"category child".$categoryChild);
+              
+               // dd($category);
                 $category->categoryAttribute()->delete();
                 foreach ($request->input('attributes') as $attribute) {
                     $category->categoryAttribute()->create([
@@ -133,7 +137,7 @@ class CategoryController extends Controller
                 Alert::success('Success', 'Category Created Successfully!');
             });
 
-            return redirect()->back();
+            return redirect('/admin/categories/manage');
         } catch (\Exception $th) {
             Alert::error('Error', $th->getMessage());
             return redirect()->back();
@@ -204,7 +208,9 @@ class CategoryController extends Controller
             abort(404);
         }
         $category = Category::where('id', $id)->with('categoryAttribute')->first();
+       // dd($category);
+        $categories = Category::all();
         $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
-        return view('admin.categories.update', compact('category', 'attributes'));
+        return view('admin.categories.update', compact('category', 'attributes', 'categories'));
     }
 }
