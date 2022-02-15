@@ -128,11 +128,14 @@ class CategoryController extends Controller
 
                // dd($category);
                 $category->categoryAttribute()->delete();
-                foreach ($request->input('attributes') as $attribute) {
-                    $category->categoryAttribute()->create([
-                        'attribute_id' => $attribute,
-                    ]);
+                if($request->has('attributes')){
+                    foreach ($request->attributes as $attribute) {
+                        $category->categoryAttribute()->create([
+                            'attribute_id' => $attribute,
+                        ]);
+                    }
                 }
+
                 $category->save();
                 Alert::success('Success', 'Category Created Successfully!');
             });
@@ -182,10 +185,12 @@ class CategoryController extends Controller
                     'description' => $request->input('description'),
                     'parent_id' => $request->input('parent_id'),
                 ]);
-                foreach ($request->input('attributes') as $attribute) {
-                    $category->categoryAttribute()->create([
-                        'attribute_id' => $attribute,
-                    ]);
+                if($request->input('attributes')){
+                    foreach ($request->input('attributes') as $attribute) {
+                        $category->categoryAttribute()->create([
+                            'attribute_id' => $attribute,
+                        ]);
+                    }
                 }
 
                 Alert::success('Success', 'Category Created Successfully!');
