@@ -88,7 +88,7 @@ class ProductController extends Controller
                 $edit =  ('edituser/' . $product->id);
 
                 $nestedData['id'] = $product->id;
-                $nestedData['title'] = $product->title;
+                $nestedData['title'] = $product->title ==  null ? '' : $product->title;
                 $nestedData['category'] = $product->category->title;
                 $nestedData['status'] = $product->status;
                 $nestedData['slug'] = $product->slug;
@@ -253,7 +253,7 @@ class ProductController extends Controller
         // Validate user data
         $validated = Validator::make($request->all(), [
             'id' => 'required|integer',
-            'title' => 'required|max:100',
+            'title' => 'nullable|max:100',
             'status' => 'required|integer',
             'description' => 'sometimes|max:255',
         ]);
@@ -312,7 +312,7 @@ class ProductController extends Controller
     {
         // Validate user data
         $validated = Validator::make($request->all(), [
-            'title' => 'required|max:100',
+            'title' => 'nullable|max:100',
             'category_id' => 'required|max:100',
             'description' => 'sometimes|max:255',
         ]);
@@ -326,7 +326,7 @@ class ProductController extends Controller
 
         try {
             $product = new Product();
-            $category = Category::where('id', $request->category_id)->with('attributes:id')->first();
+            $category = Category::where('id', $request->category_id)->with('attributes')->first();
             $product->title = $request->input('title');
             $product->category_id = $request->input('category_id');
             $product->slug =  Str::slug($request->input('title'));
@@ -340,7 +340,7 @@ class ProductController extends Controller
                 $productAttribute->save();
             }
 
-            $product->attributes()->sync($category->attributes);
+            // $product->attributes()->sync($category->attributes);
 
             Alert::success('Success', 'Product Added Successfully!');
 
@@ -359,7 +359,7 @@ class ProductController extends Controller
             $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
             $attributes_ids = array_column($product->attributes->toArray(), 'id');
             $attributes = ProductAttribute::where('product_id', $id)->with('attribute')->get();
-            dd($attributes->toArray());
+            // dd($attributes->toArray());
             // dd(array_search(402 ,));
             return view('admin.products.update', compact(['product', 'attributes']));
         } else {
