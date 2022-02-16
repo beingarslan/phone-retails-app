@@ -332,13 +332,13 @@ class ProductController extends Controller
             $product->slug =  Str::slug($request->input('title'));
             $product->description = $request->input('description');
             $product->save();
-            // foreach ($category->attributes as $attribute) {
-            //     $productAttribute = new ProductAttribute();
-            //     $productAttribute->product_id = $product->id;
-            //     $productAttribute->attribute_id = $attribute->id;
-            //     $productAttribute->value = $request->input($attribute->slug);
-            //     $productAttribute->save();
-            // }
+            foreach ($category->attributes as $attribute) {
+                $productAttribute = new ProductAttribute();
+                $productAttribute->product_id = $product->id;
+                $productAttribute->attribute_id = $attribute->id;
+                $productAttribute->value = $request->input($attribute->slug);
+                $productAttribute->save();
+            }
 
             $product->attributes()->sync($category->attributes);
 
@@ -359,7 +359,7 @@ class ProductController extends Controller
             $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
             $attributes_ids = array_column($product->attributes->toArray(), 'id');
             $attributes = ProductAttribute::where('product_id', $id)->with('attribute')->get();
-            // dd($attributes);
+            dd($attributes->toArray());
             // dd(array_search(402 ,));
             return view('admin.products.update', compact(['product', 'attributes']));
         } else {

@@ -187,12 +187,11 @@
                                 var select_html = '<div class="col-12 mb-1">' +
                                     '<div class="form-group">' +
                                     '<label for="email">' + data.attributes[i].title + '</label>' +
-                                    '<select class="form-control" name="attributes[' + data.attributes[i].id +
-                                    '][value]">' +
+                                    '<select class="form-control" name="' + data.attributes[i].slug +'">' +
                                     '<option value="">Select ' + data.attributes[i].title + '</option>';
                                 var options = JSON.parse(data.attributes[i].options);
                                 for (var j = 0; j < options.length; j++) {
-                                    select_html += '<option value="' + options[j] + '">' + options[j].title +
+                                    select_html += '<option value="' + options[j].slug+ '">' + options[j].title +
                                         '</option>';
                                 }
                                 select_html += '</select>' +
@@ -203,8 +202,7 @@
                                 var input_html = '<div class="col-12 mb-1">' +
                                     '<div class="form-group">' +
                                     '<label for="email">' + data.attributes[i].title + '</label>' +
-                                    '<input type="text" class="form-control" name="attributes[' + data
-                                    .attributes[i].id + '][value]" placeholder="' + data.attributes[i].title +
+                                    '<input type="text" class="form-control" name="'+data.attributes[i].id+'" placeholder="' + data.attributes[i].title +
                                     '">' +
                                     '</div>' +
                                     '</div>';

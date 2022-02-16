@@ -23,6 +23,6 @@ class ProductAttribute extends Model
     // relationbelongsTo attribute
     public function attribute()
     {
-        return $this->belongsTo(Attribute::class);
+        return $this->belongsTo(Attribute::class, 'attribute_id', 'id');
     }
 }
