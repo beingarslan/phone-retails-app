@@ -84,6 +84,7 @@
                                 <div class="form-group">
                                     <label for="email">Select Category</label>
                                     <select onchange="showAttributes(this)" class="form-control" name="category_id">
+                                        <option value="">Select Category</option>
                                         @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->title }}</option>
                                         @endforeach

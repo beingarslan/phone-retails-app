@@ -80,13 +80,34 @@
                                     <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description">{{$product->description}}</textarea>
                                 </div>
                             </div>
+                            <!-- status -->
+                            <div class="col-12 mb-1">
+                                <div class="form-group">
+                                    <label for="email">Status</label>
+                                    <select class="form-control" name="status">
+                                        <option {{$product->status ? 'selected' : ''}} value="1">Active
+                                        <option {{$product->status ? '' : 'selected'}} value="0">Inactive
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="col-12 mb-1">
                                 <div class="divider mb-0 mt-2">
                                     <div class="divider-text text-info">All Attributes are optional</div>
                                 </div>
                             </div>
-
+                            <div class="col-12 mb-1">
+                                <div class="form-group">
+                                    <label for="email">Select Category</label>
+                                    <select onchange="showAttributes(this)" class="form-control" name="category_id">
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                           <div id="appendAttributes">
                             @foreach($attributes as $attribute)
 
                             @if($attribute->attribute->type == 'select')
@@ -117,16 +138,8 @@
                             @endif
 
                             @endforeach
-                            <!-- status -->
-                            <div class="col-12 mb-1">
-                                <div class="form-group">
-                                    <label for="email">Status</label>
-                                    <select class="form-control" name="status">
-                                        <option {{$product->status ? 'selected' : ''}} value="1">Active
-                                        <option {{$product->status ? '' : 'selected'}} value="0">Inactive
-                                    </select>
-                                </div>
-                            </div>
+                        </div>
+
                         </div>
                     </div>
 
@@ -186,5 +199,54 @@
             $('.select_class').hide();
         }
     });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function showAttributes(e) {
+        var category_id = $(e).val();
+        $.ajax({
+            url: "/admin/attributes/get_attributes",
+            type: "POST",
+            data: {
+                category_id: category_id,
+            },
+            success: function(data) {
+                if (data.success == true) {
+                    $('#appendAttributes').html('');
+                    for (var i = 0; i < data.attributes.length; i++) {
+                        if (data.attributes[i].type == 'select') {
+                            var select_html = '<div class="col-12 mb-1">' +
+                                '<div class="form-group">' +
+                                '<label for="email">' + data.attributes[i].title + '</label>' +
+                                '<select class="form-control" name="' + data.attributes[i].slug + '">' +
+                                '<option value="">Select ' + data.attributes[i].title + '</option>';
+                            var options = JSON.parse(data.attributes[i].options);
+                            for (var j = 0; j < options.length; j++) {
+                                select_html += '<option value="' + options[j].slug + '">' + options[j].title +
+                                    '</option>';
+                            }
+                            select_html += '</select>' +
+                                '</div>' +
+                                '</div>';
+                            $('#appendAttributes').append(select_html);
+                        } else if (data.attributes[i].type == 'text') {
+                            var input_html = '<div class="col-12 mb-1">' +
+                                '<div class="form-group">' +
+                                '<label for="email">' + data.attributes[i].title + '</label>' +
+                                '<input type="text" class="form-control" name="' + data.attributes[i].slug + '" placeholder="' + data.attributes[i].title +
+                                '">' +
+                                '</div>' +
+                                '</div>';
+                            $('#appendAttributes').append(input_html);
+                        }
+                    }
+                    console.log(data);
+                }
+            }
+        });
+    }
 </script>
 @endsection
