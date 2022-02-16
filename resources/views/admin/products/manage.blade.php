@@ -3,13 +3,13 @@
 @section('title', 'Manage Products')
 
 @section('vendor-style')
-{{-- vendor css files --}}
-<link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap5.min.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
-<link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+    {{-- vendor css files --}}
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap5.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
 
 @endsection
 
@@ -17,100 +17,45 @@
 
 
 
-<section id="gradient-buttons">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <button type="button" class="btn btn-gradient-primary" data-bs-toggle="modal" data-bs-target="#addAdvertisingModel">Add Product</button>
-                    <!-- Add User Model -->
-                    <div class="modal fade" id="addAdvertisingModel" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
-                            <div class="modal-content">
-                                <div class="modal-header bg-transparent">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body pb-5 px-sm-5 pt-50">
-                                    <div class="text-center mb-2">
-                                        <h1 class="mb-1">Add Product</h1>
-                                        <!-- <p>Updating user details will receive a privacy audit.</p> -->
-                                    </div>
-                                    <form id="editUserForm" class="row gy-1 pt-75" action="{{route('admin.products.save')}}" method="POST">
-                                        @csrf
-                                        <!-- title -->
-                                        <div class="col-12 mb-0">
-                                            <div class="form-group">
-                                            <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" name="title" placeholder="Enter Title">
-                                            </div>
-                                        </div>
-                                 
-
-
-
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label for="email">Description</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="3" placeholder="Description"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12 mb-0">
-                                            <label class="form-label" for="select2-basic">Category</label>
-                                            <select name="category_id" class="category form-select" id="select2-basic">
-                                                <option selected value="">Select Category</option>
-                                                @foreach($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->title}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-12 text-center mt-2 pt-50">
-                                            <button type="submit" class="btn btn-primary me-1">Submit</button>
-                                            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">
-                                                Discard
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+    <section id="gradient-buttons">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <a class="btn btn-gradient-primary" href="/admin/products/add">Add Product</a>
                     </div>
-                    <!-- Add User Model End -->
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
-<!-- Basic table -->
-<section id="basic-datatable">
-    <div class="row">
-        <div class="col-12">
-            <div class="card table-responsive">
-                <table class="table" style="width: 100%; " id="users-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Slug</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                </table>
+    <!-- Basic table -->
+    <section id="basic-datatable">
+        <div class="row">
+            <div class="col-12">
+                <div class="card table-responsive">
+                    <table class="table" style="width: 100%; " id="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Slug</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
 
 
-</section>
-<!--/ Basic table -->
+    </section>
+    <!--/ Basic table -->
 
 
 
@@ -118,99 +63,95 @@
 
 
 @section('vendor-script')
-{{-- vendor files --}}
-<script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.bootstrap5.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap5.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/pdfmake.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+    {{-- vendor files --}}
+    <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.bootstrap5.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap5.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/jszip.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/pdfmake.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 
 @endsection
 @section('page-script')
-{{-- Page js files --}}
-<script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
-<script src="{{ asset(mix('js/scripts/tables/table-datatables-basic.js')) }}"></script>
+    {{-- Page js files --}}
+    <script src="{{ asset(mix('js/scripts/forms/form-select2.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/tables/table-datatables-basic.js')) }}"></script>
 
-<script>
-    $(function() {
-        $('#users-table').DataTable({
-            responsive: false,
-            processing: true,
-            serverSide: true,
-            order: [
-                [0, "desc"]
-            ],
-            ajax: '{!! route("admin.products.products") !!}',
-            columns: [
+    <script>
+        $(function() {
+            $('#users-table').DataTable({
+                responsive: false,
+                processing: true,
+                serverSide: true,
+                order: [
+                    [0, "desc"]
+                ],
+                ajax: '{!! route('admin.products.products') !!}',
+                columns: [
 
-                {
-                    data: 'id',
-                    name: 'id'
-                },
-                {
-                    data: 'title',
-                    render: function(data) {
-                        return '<b>' + data + '</b>'
-                    }
-                },
-                {
-                    data: 'category',
-                    name: 'category'
-                },
-                {
-                    data: 'slug',
-                    name: 'slug'
-                },
-
-                {
-                    data: 'status',
-                    render: function(data) {
-                        if (data === 1) {
-                            return '<span class="badge badge-glow bg-success">Active</span>'
-                        } else {
-                            return '<span class="badge badge-glow bg-warning">In Active</span>'
+                    {
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'title',
+                        render: function(data) {
+                            return '<b>' + data + '</b>'
                         }
+                    },
+                    {
+                        data: 'category',
+                        name: 'category'
+                    },
+                    {
+                        data: 'slug',
+                        name: 'slug'
+                    },
+
+                    {
+                        data: 'status',
+                        render: function(data) {
+                            if (data === 1) {
+                                return '<span class="badge badge-glow bg-success">Active</span>'
+                            } else {
+                                return '<span class="badge badge-glow bg-warning">In Active</span>'
+                            }
+                        }
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     }
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
 
-            ]
+                ]
+            });
         });
-    });
-</script>
+    </script>
 
-<script>
-    // select2
-    $('.brand').select2();
-
-</script>
-<script>
-    // select2
-    $('.capacity').select2();
-
-</script>
-<script>
-    // select2
-    $('.category').select2();
-
-</script>
-<script>
-    // select2
-    $('.color').select2();
-
-</script>
+    <script>
+        // select2
+        $('.brand').select2();
+    </script>
+    <script>
+        // select2
+        $('.capacity').select2();
+    </script>
+    <script>
+        // select2
+        $('.category').select2();
+    </script>
+    <script>
+        // select2
+        $('.color').select2();
+    </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;
+use App\Models\CategoryAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -218,5 +219,14 @@ class AttributeController extends Controller
             return redirect()->back();
             // throw $th;
         }
+    }
+    public function getAttributes(Request $request)
+    {
+        $attribute = CategoryAttribute::where('category_id', $request->category_id)->get();
+        $attributes = $attribute->toArray();
+        $attribute_ids = array_column($attributes, 'attribute_id');
+        $attributes = Attribute::whereIn('id', $attribute_ids)->get();
+        $attributes = $attributes->toArray();
+        return response()->json(['success' => true, 'attributes' => $attributes]);
     }
 }

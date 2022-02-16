@@ -120,6 +120,8 @@ Route::group(
                         // Route::get('/single/{id}', [AttributeController::class, 'single'])->name('single');
                         Route::post('/edit', [AttributeController::class, 'edit'])->name('edit');
                         Route::post('/remove', [AttributeController::class, 'remove'])->name('remove');
+                        Route::post('/get_attributes', [AttributeController::class, 'getAttributes'])->name('get_attributes');
+
                     }
                 );
                 Route::group(
@@ -156,6 +158,7 @@ Route::group(
                         'as' => 'products.'
                     ],
                     function () {
+                        Route::get('/add', [ProductController::class, 'addProducts'])->name('add');
                         Route::get('/manage', [ProductController::class, 'manage'])->name('manage');
                         Route::get('/update/{id}', [ProductController::class, 'update'])->name('update');
                         Route::post('/save', [ProductController::class, 'save'])->name('save');

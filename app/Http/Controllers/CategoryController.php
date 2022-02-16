@@ -123,12 +123,15 @@ class CategoryController extends Controller
                 $category->title = $request->title;
                 $category->description = $request->description;
                 $category->status = $request->status;
-                $categoryChild = $category->child()->count();
-                dd($request->category,"category child".$categoryChild);
+                // $category =  empty($category->child) ? $this->categories : [];
+                $category->parent_id = $request->category;
 
-               // dd($category);
+
+                // dd($request->category,"category child".$categoryChild);
+
+                // dd($category);
                 $category->categoryAttribute()->delete();
-                if($request->has('attributes')){
+                if ($request->has('attributes')) {
                     foreach ($request->attributes as $attribute) {
                         $category->categoryAttribute()->create([
                             'attribute_id' => $attribute,
@@ -185,7 +188,7 @@ class CategoryController extends Controller
                     'description' => $request->input('description'),
                     'parent_id' => $request->input('parent_id'),
                 ]);
-                if($request->input('attributes')){
+                if ($request->input('attributes')) {
                     foreach ($request->input('attributes') as $attribute) {
                         $category->categoryAttribute()->create([
                             'attribute_id' => $attribute,
@@ -213,7 +216,7 @@ class CategoryController extends Controller
             abort(404);
         }
         $category = Category::where('id', $id)->with('categoryAttribute', 'child')->first();
-       // dd($category);
+        // dd($category);
         $categories =  empty($category->child) ? $this->categories : [];
         $attributes = Attribute::where('status', 1)->orderBy('sort_order', 'desc')->get();
         return view('admin.categories.update', compact('category', 'attributes', 'categories'));

@@ -30,6 +30,11 @@ class ProductController extends Controller
             $this->category_options .= '<option value="' . $category->id . '">' . $category->title . '</option>';
         }
     }
+    public function addProducts()
+    {
+        $categories = Category::all();
+        return view('admin.products.add', compact('categories'));
+    }
     public function manage()
     {
         $categories = $this->categories;
@@ -284,8 +289,7 @@ class ProductController extends Controller
             Alert::error('Error', $th->getMessage());
             return redirect()->back();
             // throw $th;
-        }
-        catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             Alert::error('Error', $th->getMessage());
             return redirect()->back();
             // throw $th;
@@ -328,6 +332,13 @@ class ProductController extends Controller
             $product->slug =  Str::slug($request->input('title'));
             $product->description = $request->input('description');
             $product->save();
+            // foreach ($category->attributes as $attribute) {
+            //     $productAttribute = new ProductAttribute();
+            //     $productAttribute->product_id = $product->id;
+            //     $productAttribute->attribute_id = $attribute->id;
+            //     $productAttribute->value = $request->input($attribute->slug);
+            //     $productAttribute->save();
+            // }
 
             $product->attributes()->sync($category->attributes);
 
@@ -348,6 +359,7 @@ class ProductController extends Controller
             $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
             $attributes_ids = array_column($product->attributes->toArray(), 'id');
             $attributes = ProductAttribute::where('product_id', $id)->with('attribute')->get();
+            // dd($attributes);
             // dd(array_search(402 ,));
             return view('admin.products.update', compact(['product', 'attributes']));
         } else {

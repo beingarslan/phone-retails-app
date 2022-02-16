@@ -117,7 +117,7 @@
                                     <small>There will be no parent if current category is a parent</small>
                                 </label>
                                 <select class="form-control" name="category">
-                                    <option >Select Category</option>
+                                    {{-- <option >Select Category</option> --}}
                                     @if($category->parent_id)
                                     <option value="{{$category->parent_id}}" selected>{{$category->parent->title}}</option>
                                     @endif
