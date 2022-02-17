@@ -35,4 +35,14 @@ class Product extends Model
     {
         return $this->belongsToMany(Attribute::class, ProductAttribute::class, 'product_id', 'attribute_id');
     }
+
+    public function supplierProducts()
+    {
+        return $this->hasMany(SupplierProduct::class, 'product_id', 'id');
+    }
+
+    public function suppliers()
+    {
+        return $this->belongsToMany(Supplier::class, SupplierProduct::class, 'product_id', 'supplier_id');
+    }
 }

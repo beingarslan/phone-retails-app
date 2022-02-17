@@ -12,11 +12,11 @@ class Supplier extends Model
     // fillable
     protected $fillable = [
         'id',
-        'name', 
-        'short_name', 
+        'name',
+        'short_name',
         'slug',
-        'phone', 
-        'address', 
+        'phone',
+        'address',
         'email',
         'country',
         'contact_person_name',
@@ -27,4 +27,16 @@ class Supplier extends Model
         'updated_at',
         'logo',
     ];
+
+    // relationships
+    public function supplierProducts()
+    {
+        return $this->hasMany(SupplierProduct::class, 'supplier_id', 'id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, SupplierProduct::class, 'supplier_id', 'product_id');
+    }
+
 }

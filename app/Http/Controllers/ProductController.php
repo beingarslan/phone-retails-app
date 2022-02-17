@@ -359,10 +359,10 @@ class ProductController extends Controller
             $product = Product::where('id', $id)->with(['category', 'attributes'])->first();
             $attributes_ids = array_column($product->attributes->toArray(), 'id');
             $attributes = ProductAttribute::where('product_id', $id)->with('attribute')->get();
-            $categories = Category::all();  
+            $categories = Category::all();
             // dd($attributes->toArray());
             // dd(array_search(402 ,));
-            return view('admin.products.update', compact(['product', 'attributes','categories']));
+            return view('admin.products.update', compact(['product', 'attributes', 'categories']));
         } else {
             return redirect()->back();
         }
