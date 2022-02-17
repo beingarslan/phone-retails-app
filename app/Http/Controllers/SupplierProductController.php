@@ -5,82 +5,43 @@ namespace App\Http\Controllers;
 use App\Models\SupplierProduct;
 use App\Http\Requests\StoreSupplierProductRequest;
 use App\Http\Requests\UpdateSupplierProductRequest;
+use App\Models\Product;
+use App\Models\Supplier;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+use RealRashid\SweetAlert\Toaster;
 
 class SupplierProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function manage(Request $request, $supplier_id){
+        $supplier = Supplier::findOrFail($supplier_id);
+        if(!$supplier){
+            abort(404);
+        }
+        $supplierProducts = $supplier->supplierProducts;
+        $supplierProductsIds = $supplierProducts->pluck('product_id')->toArray();
+
+        $products = Product::whereNotIn('id', $supplierProductsIds)->orderBy('created_at', 'desc')->get();
+
+        $supplier_products = $supplier->products;
+
+        return view('admin.supplier_product.manage', compact('products', 'supplier_products', 'supplier'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreSupplierProductRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreSupplierProductRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SupplierProduct  $supplierProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function show(SupplierProduct $supplierProduct)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SupplierProduct  $supplierProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(SupplierProduct $supplierProduct)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateSupplierProductRequest  $request
-     * @param  \App\Models\SupplierProduct  $supplierProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateSupplierProductRequest $request, SupplierProduct $supplierProduct)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\SupplierProduct  $supplierProduct
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(SupplierProduct $supplierProduct)
-    {
-        //
+    // save
+    public function save(Request $request){
+        try {
+            $supplier = Supplier::findOrFail($request->supplier_id);
+            $supplier->products()->attach($request->product_id);
+            Alert::success('Success', 'Product added successfully');
+            return redirect()->back()->with('success', 'Product added successfully');
+        } catch (\Exception $e) {
+            Alert::error('Error', 'Something went wrong');
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (\Throwable $th) {
+            //throw $th;
+            Alert::error('Error', 'Something went wrong');
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 }

@@ -61,7 +61,7 @@ class SupplierController extends Controller
                 ->addColumn('action', function ($supplier) {
                     return '
                 <div class="btn-group btn-group-sm">
-                <a href="/admin/suppliers/manage-supplier-products/' . $supplier->id . '" class="btn btn-outline-primary waves-effect">Products</a>
+                <a href="/admin/supplier-products/manage/' . $supplier->id . '" class="btn btn-outline-info waves-effect">Products</a>
                 <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal" data-bs-target="#editModel' . $supplier->id . '">Edit</button>
                 <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $supplier->id . '">X</button>
                 ' . $this->edit_user_form($supplier) . '
@@ -147,7 +147,7 @@ class SupplierController extends Controller
                                             <textarea class="form-control" id="exampleFormControlTextarea1" name="address" rows="3" placeholder="Address">' . $supplier->address . '</textarea>
                                         </div>
                                     </div>
-                            
+
                             <div class="col-12">
                                 <div class="demo-inline-spacing">
                                     <div class="form-check form-check-inline">
@@ -191,7 +191,7 @@ class SupplierController extends Controller
                                 </div>
                                 <div class="modal-body">
                                 <h1 class="text-danger">Are you sure?</h1>
-                                      
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -201,7 +201,7 @@ class SupplierController extends Controller
                         </div>
                     </div>
                 </form>
-        
+
         ';
     }
 

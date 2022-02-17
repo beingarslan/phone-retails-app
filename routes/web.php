@@ -23,6 +23,7 @@ use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
@@ -121,7 +122,6 @@ Route::group(
                         Route::post('/edit', [AttributeController::class, 'edit'])->name('edit');
                         Route::post('/remove', [AttributeController::class, 'remove'])->name('remove');
                         Route::post('/get_attributes', [AttributeController::class, 'getAttributes'])->name('get_attributes');
-
                     }
                 );
                 Route::group(
@@ -184,8 +184,22 @@ Route::group(
                         Route::get('/manage-supplier-products/{id}', [SupplierController::class, 'manageSupplierProducts'])->name('manage-supplier-products');
                         Route::get('/attach-supplier-products/{id}', [SupplierController::class, 'AttachProducts'])->name('attach-supplier-products');
                         Route::post('/save-attached-products', [SupplierController::class, 'saveAttachedProducts'])->name('save-attached-products');
+                    }
+                );
+                // supplier products
+                Route::group(
+                    [
+                        'prefix' => 'supplier-products',
+                        'as' => 'supplier-products.'
+                    ],
 
-
+                    function () {
+                        Route::get('/manage/{supplier_id}', [SupplierProductController::class, 'manage'])->name('manage');
+                        Route::post('/save', [SupplierProductController::class, 'save'])->name('save');
+                        // Route::get('/product-suppliers', [ProductSupplierController::class, 'productSuppliers'])->name('product-suppliers');
+                        // // Route::get('/single/{id}', [ProductSupplierController::class, 'single'])->name('single');
+                        // Route::post('/edit', [ProductSupplierController::class, 'edit'])->name('edit');
+                        // Route::post('/remove', [ProductSupplierController::class, 'remove'])->name('remove');
                     }
                 );
                 Route::group(
