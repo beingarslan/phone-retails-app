@@ -196,10 +196,6 @@ Route::group(
                     function () {
                         Route::get('/manage/{supplier_id}', [SupplierProductController::class, 'manage'])->name('manage');
                         Route::post('/save', [SupplierProductController::class, 'save'])->name('save');
-                        // Route::get('/product-suppliers', [ProductSupplierController::class, 'productSuppliers'])->name('product-suppliers');
-                        // // Route::get('/single/{id}', [ProductSupplierController::class, 'single'])->name('single');
-                        // Route::post('/edit', [ProductSupplierController::class, 'edit'])->name('edit');
-                        // Route::post('/remove', [ProductSupplierController::class, 'remove'])->name('remove');
                     }
                 );
                 Route::group(
