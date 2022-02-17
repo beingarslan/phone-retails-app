@@ -180,6 +180,12 @@ Route::group(
                         // Route::get('/single/{id}', [SupplierController::class, 'single'])->name('single');
                         Route::post('/edit', [SupplierController::class, 'edit'])->name('edit');
                         Route::post('/remove', [SupplierController::class, 'remove'])->name('remove');
+                        Route::get('/add-supplier-products', [SupplierController::class, 'supplierProducts'])->name('suppliers-products');
+                        Route::get('/manage-supplier-products/{id}', [SupplierController::class, 'manageSupplierProducts'])->name('manage-supplier-products');
+                        Route::get('/attach-supplier-products/{id}', [SupplierController::class, 'AttachProducts'])->name('attach-supplier-products');
+                        Route::post('/save-attached-products', [SupplierController::class, 'saveAttachedProducts'])->name('save-attached-products');
+
+
                     }
                 );
                 Route::group(

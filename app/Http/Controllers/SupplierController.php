@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
+use App\Models\SupplierProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -22,6 +24,35 @@ class SupplierController extends Controller
     {
         return view('admin.suppliers.manage');
     }
+    public function manageSupplierProducts($id)
+    {
+        $supplier_products = SupplierProduct::where('supplier_id', $id)->get();
+        $supplier_products = $supplier_products->pluck('product_id');
+        $products = Product::whereIn('id', $supplier_products)->get();
+        // dd($products);
+        return view('admin.suppliers.manage-supplier-products', compact('id'));
+    }
+    public function AttachProducts(Request $request)
+    {
+        $id = $request->id;
+        $products = Product::all();
+        return view('admin.suppliers.attach-supplier-products', compact('products', 'id'));
+    }
+    public function saveAttachedProducts(Request $request)
+    {
+        $id = $request->id;
+        $products = $request->products;
+        foreach ($products as $product) {
+            $supplier_product = new SupplierProduct();
+            $supplier_product->supplier_id = $id;
+            $supplier_product->product_id = $product;
+            $supplier_product->save();
+        }
+
+        Alert::success('Success', 'Products Attached Successfully');
+        return redirect()->back();
+    }
+
 
     public function suppliers()
     {
@@ -29,7 +60,8 @@ class SupplierController extends Controller
             return DataTables::of(Supplier::all())
                 ->addColumn('action', function ($supplier) {
                     return '
-                <div class="btn-group">
+                <div class="btn-group btn-group-sm">
+                <a href="/admin/suppliers/manage-supplier-products/' . $supplier->id . '" class="btn btn-outline-primary waves-effect">Products</a>
                 <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal" data-bs-target="#editModel' . $supplier->id . '">Edit</button>
                 <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $supplier->id . '">X</button>
                 ' . $this->edit_user_form($supplier) . '
@@ -64,55 +96,55 @@ class SupplierController extends Controller
                             <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Name</label>
-                                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="'.$supplier->name.'">
+                                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="' . $supplier->name . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Short Name</label>
-                                                <input type="text" class="form-control" id="name" name="short_name" placeholder="Short Name" value="'.$supplier->short_name.'">
+                                                <input type="text" class="form-control" id="name" name="short_name" placeholder="Short Name" value="' . $supplier->short_name . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Phone</label>
-                                                <input type="text" class="form-control" id="name" name="phone" placeholder="Phone" value="'.$supplier->phone.'">
+                                                <input type="text" class="form-control" id="name" name="phone" placeholder="Phone" value="' . $supplier->phone . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Email</label>
-                                                <input type="text" class="form-control" id="name" name="email" placeholder="Email" value="'.$supplier->email.'">
+                                                <input type="text" class="form-control" id="name" name="email" placeholder="Email" value="' . $supplier->email . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Country</label>
-                                                <input type="text" class="form-control" id="name" name="country" placeholder="Country" value="'.$supplier->country.'">
+                                                <input type="text" class="form-control" id="name" name="country" placeholder="Country" value="' . $supplier->country . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Contact Person Name</label>
-                                                <input type="text" class="form-control" id="name" name="contact_person_name" placeholder="Contact Person Name" value="'.$supplier->contact_person_name.'">
+                                                <input type="text" class="form-control" id="name" name="contact_person_name" placeholder="Contact Person Name" value="' . $supplier->contact_person_name . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Contact Person Phone</label>
-                                                <input type="text" class="form-control" id="name" name="contact_person_phone" placeholder="Contact Person Phone" value="'.$supplier->contact_person_phone.'">
+                                                <input type="text" class="form-control" id="name" name="contact_person_phone" placeholder="Contact Person Phone" value="' . $supplier->contact_person_phone . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="name">Contact Person Email</label>
-                                                <input type="text" class="form-control" id="name" name="contact_person_email" placeholder="Contact Person Email" value="'.$supplier->contact_person_email.'">
+                                                <input type="text" class="form-control" id="name" name="contact_person_email" placeholder="Contact Person Email" value="' . $supplier->contact_person_email . '">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                         <div class="form-group">
                                             <label for="email">Address</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" name="address" rows="3" placeholder="Address">'.$supplier->address.'</textarea>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" name="address" rows="3" placeholder="Address">' . $supplier->address . '</textarea>
                                         </div>
                                     </div>
                             
