@@ -14,7 +14,7 @@ class CreateSupplierProductsTable extends Migration
     public function up()
     {
         Schema::create('supplier_products', function (Blueprint $table) {
-            $table->id()->autoIncrement();
+            $table->id();
             $table->foreignId('supplier_id')->nullable()->constrained('suppliers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('product_id')->nullable()->constrained('products')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
