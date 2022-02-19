@@ -33,10 +33,11 @@ class Supplier extends Model
     {
         return $this->hasMany(SupplierProduct::class, 'supplier_id', 'id');
     }
-
+ 
     public function products()
     {
         return $this->belongsToMany(Product::class, SupplierProduct::class, 'supplier_id', 'product_id');
     }
+ 
 
 }

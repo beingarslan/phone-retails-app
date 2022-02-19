@@ -196,6 +196,20 @@ Route::group(
                     function () {
                         Route::get('/manage/{supplier_id}', [SupplierProductController::class, 'manage'])->name('manage');
                         Route::post('/save', [SupplierProductController::class, 'save'])->name('save');
+                        Route::post('/remove', [SupplierProductController::class, 'remove'])->name('remove');
+                    }
+                );
+                // product-suppliers
+                Route::group(
+                    [
+                        'prefix' => 'product-suppliers',
+                        'as' => 'product-suppliers.'
+                    ],
+
+                    function () {
+                        Route::get('/manage/{supplier_id}', [SupplierProductController::class, 'manageProductSuppliers'])->name('manage');
+                        Route::post('/save', [SupplierProductController::class, 'saveProductSuppliers'])->name('save-product-suppliers');
+                        Route::post('/remove/product-supplier', [SupplierProductController::class, 'removeProductSuppliers'])->name('remove-product-supplier');
                     }
                 );
                 Route::group(

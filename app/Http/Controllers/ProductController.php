@@ -93,7 +93,8 @@ class ProductController extends Controller
                 $nestedData['status'] = $product->status;
                 $nestedData['slug'] = $product->slug;
                 $nestedData['action'] = '
-                            <div class="btn-group">
+                            <div class="btn-group btn-group-sm">
+                            <a href="/admin/product-suppliers/manage/' . $product->id . '" class="btn btn-outline-info waves-effect">Suppliers</a>
                             <a href="/admin/products/update/' . $product->id . '" class="btn btn-outline-primary waves-effect">Edit</a>
                             <button type="button" class="btn btn-outline-danger waves-effect" data-bs-toggle="modal" data-bs-target="#removeModel' . $product->id . '">X</button>
                             ' . $this->edit_user_form($product) . '
