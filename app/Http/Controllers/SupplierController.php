@@ -24,36 +24,6 @@ class SupplierController extends Controller
     {
         return view('admin.suppliers.manage');
     }
-    public function manageSupplierProducts($id)
-    {
-        $supplier_products = SupplierProduct::where('supplier_id', $id)->get();
-        $supplier_products = $supplier_products->pluck('product_id');
-        $products = Product::whereIn('id', $supplier_products)->get();
-        // dd($products);
-        return view('admin.suppliers.manage-supplier-products', compact('id'));
-    }
-    public function AttachProducts(Request $request)
-    {
-        $id = $request->id;
-        $products = Product::all();
-        return view('admin.suppliers.attach-supplier-products', compact('products', 'id'));
-    }
-    public function saveAttachedProducts(Request $request)
-    {
-        $id = $request->id;
-        $products = $request->products;
-        foreach ($products as $product) {
-            $supplier_product = new SupplierProduct();
-            $supplier_product->supplier_id = $id;
-            $supplier_product->product_id = $product;
-            $supplier_product->save();
-        }
-
-        Alert::success('Success', 'Products Attached Successfully');
-        return redirect()->back();
-    }
-
-
     public function suppliers()
     {
         try {
